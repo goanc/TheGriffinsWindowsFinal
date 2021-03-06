@@ -9,7 +9,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-var gEngine = gEngine || { };
+var gEngine = gEngine || {};
 
 gEngine.Input = (function () {
     // Key code constants
@@ -29,39 +29,39 @@ gEngine.Input = (function () {
         Two: 50,
         Three: 51,
         Four: 52,
-        Five : 53,
-        Six : 54,
-        Seven : 55,
-        Eight : 56,
-        Nine : 57,
+        Five: 53,
+        Six: 54,
+        Seven: 55,
+        Eight: 56,
+        Nine: 57,
 
         // Alphabets
-        A : 65,
-        B : 66,
-        C : 67,
-        D : 68,
-        E : 69,
-        F : 70,
-        G : 71,
-        H : 72,
-        I : 73,
-        J : 74,
-        K : 75,
-        L : 76,
-        M : 77,
-        N : 78,
-        O : 79,
-        P : 80,
-        Q : 81,
-        R : 82,
-        S : 83,
-        T : 84,
-        U : 85,
-        V : 86,
-        W : 87,
-        X : 88,
-        Y : 89,
-        Z : 90,
+        A: 65,
+        B: 66,
+        C: 67,
+        D: 68,
+        E: 69,
+        F: 70,
+        G: 71,
+        H: 72,
+        I: 73,
+        J: 74,
+        K: 75,
+        L: 76,
+        M: 77,
+        N: 78,
+        O: 79,
+        P: 80,
+        Q: 81,
+        R: 82,
+        S: 83,
+        T: 84,
+        U: 85,
+        V: 86,
+        W: 87,
+        X: 88,
+        Y: 89,
+        Z: 90,
 
         LastKeyCode: 222
     };
@@ -87,6 +87,7 @@ gEngine.Input = (function () {
     var mIsButtonClicked = [];
     var mMousePosX = -1;
     var mMousePosY = -1;
+    var isMouseMoving = false;
 
     // <editor-fold desc="Event handler functions">
     //<editor-fold desc="Keyboard handlers">
@@ -100,6 +101,7 @@ gEngine.Input = (function () {
 
     //<editor-fold desc="Mouse handlers">
     var _onMouseMove = function (event) {
+        isMouseMoving = true;
         var inside = false;
         var bBox = mCanvas.getBoundingClientRect();
         // In Canvas Space now. Convert via ratio from canvas to client.
@@ -107,7 +109,7 @@ gEngine.Input = (function () {
         var y = Math.round((event.clientY - bBox.top) * (mCanvas.height / bBox.height));
 
         if ((x >= 0) && (x < mCanvas.width) &&
-            (y >= 0) && (y < mCanvas.height)) {
+                (y >= 0) && (y < mCanvas.height)) {
             mMousePosX = x;
             mMousePosY = mCanvas.height - 1 - y;
             inside = true;
@@ -150,11 +152,13 @@ gEngine.Input = (function () {
         window.addEventListener('mousedown', _onMouseDown);
         window.addEventListener('mouseup', _onMouseUp);
         window.addEventListener('mousemove', _onMouseMove);
+        window.addEventListener('mousedown', isButtonDragging);
         mCanvas = document.getElementById(canvasID);
         //</editor-fold>
     };
 
     var update = function () {
+        isMouseMoving = false;
         var i;
         for (i = 0; i < kKeys.LastKeyCode; i++) {
             mIsKeyClicked[i] = (!mKeyPreviousState[i]) && mIsKeyPressed[i];
@@ -182,8 +186,21 @@ gEngine.Input = (function () {
     var isButtonClicked = function (button) {
         return mIsButtonClicked[button];
     };
-    var getMousePosX = function () { return mMousePosX; };
-    var getMousePosY = function () { return mMousePosY; };
+
+    var isButtonDragging = function (button) {
+        /*
+         * check if moving 
+         */
+        if (isMouseMoving) {
+            return true;
+        }
+    };
+    var getMousePosX = function () {
+        return mMousePosX;
+    };
+    var getMousePosY = function () {
+        return mMousePosY;
+    };
 
     var mPublic = {
         initialize: initialize,
@@ -195,9 +212,10 @@ gEngine.Input = (function () {
         keys: kKeys,
 
         // Mouse support
+        isButtonDragging: isButtonDragging,
         isButtonPressed: isButtonPressed,
         isButtonClicked: isButtonClicked,
-        getMousePosX: getMousePosX,       // invalid if no corresponding buttonPressed or buttonClicked
+        getMousePosX: getMousePosX, // invalid if no corresponding buttonPressed or buttonClicked
         getMousePosY: getMousePosY,
         mouseButton: kMouseButton
     };
