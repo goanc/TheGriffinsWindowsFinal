@@ -41,7 +41,7 @@ MyGame.prototype.initialize = function () {
     this.mRenderableTest.getXform().setSize(10, 10);
 
     this.mDragTest = new Draggable(this.mRenderableTest);
-    this.mDragTest.setDragArea(30, 30, 5, 5);
+    this.mDragTest.setDragArea(0, 4, 10, 2);
 
 
     this.mMsg = new FontRenderable("Status Message");

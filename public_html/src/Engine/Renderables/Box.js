@@ -100,6 +100,14 @@ Box.prototype.incY = function (delta) {
     this.mY += delta;
 };
 
+Box.prototype.getXPos = function () {
+    return this.mX;
+};
+
+Box.prototype.getYPos = function () {
+    return this.mY;
+};
+
 Box.prototype.enable = function () {
     this.mFlag = true;
 };

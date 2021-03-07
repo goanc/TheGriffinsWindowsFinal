@@ -7,8 +7,8 @@
 
 function Draggable(renderableObject) {
     this.mRenderableObject = renderableObject;
-    this.mDragAreaXPosition = null;
-    this.mDragAreaYPosition = null;
+    this.mDragAreaXOffset = null;
+    this.mDragAreaYOffset = null;
     this.mDragAreaWidth = null;
     this.mDragAreaHeight = null;
 
@@ -31,7 +31,7 @@ Draggable.prototype.initialize = function () {
 Draggable.prototype.update = function () {
     this.mBorder.update();
 
-    console.log("down ", this.wasDown, " dragging ", this.dragging);
+    //console.log("x ", this.mBorder.getXPos(), " y ", this.mBorder.getYPos());
 
     var dragArea = this.mBorder.getBBox();
     if (gEngine.Input.isButtonPressed(0)) {
@@ -50,8 +50,14 @@ Draggable.prototype.update = function () {
     }
 
     if (this.dragging) {
-        this.mRenderableObject.getXform().setPosition(this.mMouseX, this.mMouseY);
-        this.mBorder.setBoxCenter(this.mMouseX, this.mMouseY);
+        // get mouse offset from renderable center
+        var mouseXOffset = this.mMouseX - this.mRenderableObject.getXform().getXPos();
+        var mouseYOffset = this.mMouseY - this.mRenderableObject.getXform().getYPos();
+
+        console.log("x ", mouseXOffset, " y ", mouseYOffset);
+
+        this.mRenderableObject.getXform().setPosition(this.mMouseX + mouseXOffset, this.mMouseY + mouseYOffset);
+        this.mBorder.setBoxCenter(this.mMouseX + this.mDragAreaXOffset + mouseXOffset, this.mMouseY + this.mDragAreaYOffset + mouseYOffset);
     }
 
 //    if (gEngine.Input.isMouseDown()) {
@@ -83,13 +89,14 @@ Draggable.prototype.setMousePosition = function (x, y) {
 
 };
 
-Draggable.prototype.setDragArea = function (x, y, width, height) {
-    this.mDragAreaXPosition = x;
-    this.mDragAreaYPosition = y;
+// Takes an offset from the renderable position
+Draggable.prototype.setDragArea = function (xOffset, yOffset, width, height) {
+    this.mDragAreaXOffset = xOffset;
+    this.mDragAreaYOffset = yOffset;
     this.mDragAreaWidth = width;
     this.mDragAreaHeight = height;
 
-    this.mBorder.setBoxCenter(x, y);
+    this.mBorder.setBoxCenter(this.mRenderableObject.getXform().getXPos() + xOffset, this.mRenderableObject.getXform().getYPos() + yOffset);
     this.mBorder.setWidth(width);
     this.mBorder.setHeight(height);
 };
