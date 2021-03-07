@@ -15,6 +15,10 @@ function Draggable(renderableObject) {
     this.mMouseX = null;
     this.mMouseY = null;
 
+    this.wasDown = false;
+    this.dragging = false;
+    //this.wasUp = false;
+
     this.mBorder = new Box(0, 0, 0, 0);
     this.mBorderState = true;
 }
@@ -27,16 +31,41 @@ Draggable.prototype.initialize = function () {
 Draggable.prototype.update = function () {
     this.mBorder.update();
 
-    var dragArea = this.mBorder.getBBox();
+    console.log("down ", this.wasDown, " dragging ", this.dragging);
 
-    if (!gEngine.Input.isMouseDown()) {
-        if (dragArea.containsPoint(this.mMouseX, this.mMouseY)) {
-            console.log("in bound");
+    var dragArea = this.mBorder.getBBox();
+    if (gEngine.Input.isButtonPressed(0)) {
+        if (!this.wasDown) {
+            this.wasDown = true;
+            if (dragArea.containsPoint(this.mMouseX, this.mMouseY)) {
+                this.dragging = true;
+            }
+
         }
-        if (gEngine.Input.isButtonPressed(0)) {
-            console.log("mouse press");
+    } else {
+        if (this.wasDown) {
+            this.wasDown = false;
+            this.dragging = false;
         }
     }
+
+    if (this.dragging) {
+        this.mRenderableObject.getXform().setPosition(this.mMouseX, this.mMouseY);
+        this.mBorder.setBoxCenter(this.mMouseX, this.mMouseY);
+    }
+
+//    if (gEngine.Input.isMouseDown()) {
+//
+//    }
+//    if (!gEngine.Input.isMouseDown()) {
+//        console.log("down");
+//        if (dragArea.containsPoint(this.mMouseX, this.mMouseY)) {
+//            console.log("in bound");
+//        }
+//        if (gEngine.Input.isButtonPressed(0)) {
+//            console.log("mouse press");
+//        }
+//    }
 
 
 };
