@@ -5,7 +5,7 @@
  */
 "use strict";
 
-function Draggable(renderableObject) 
+function Resizeable(renderableObject) 
 {
     this.mRenderableObject = renderableObject;
     this.bottomRight = [];
@@ -15,7 +15,7 @@ function Draggable(renderableObject)
     this.resizeAreaSize = null;
 };
 
-Draggable.prototype.setup = function (bRX, bRY, bLX, bLY, tRX, tRY, tLX, tLY, size) 
+Resizeable.prototype.setup = function (bRX, bRY, bLX, bLY, tRX, tRY, tLX, tLY, size) 
 {
     this.bottomRight.push(bRX);
     this.bottomRight.push(bRY);
@@ -32,17 +32,17 @@ Draggable.prototype.setup = function (bRX, bRY, bLX, bLY, tRX, tRY, tLX, tLY, si
     this.resizeAreaSize = size;
 };
 
-Draggable.prototype.initialize = function () 
+Resizeable.prototype.initialize = function () 
 {
 
 };
 
-Draggable.prototype.update = function () 
+Resizeable.prototype.update = function () 
 {
     
 };
 
-Draggable.prototype.draw = function (camera) 
+Resizeable.prototype.draw = function (camera) 
 {
     this.mRenderableObject.draw(camera);
 };
