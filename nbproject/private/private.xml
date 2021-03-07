@@ -5,7 +5,7 @@
             <url>public_html/src/MyGame/MyGame.js</url>
             <bookmark id="1">
                 <name/>
-                <line>71</line>
+                <line>70</line>
                 <key/>
             </bookmark>
         </file>
@@ -15,5 +15,6 @@
         <group name="BookChapters"/>
         <group name="AllBookProjects"/>
         <group name="Apress-2d-game-engine"/>
+        <group/>
     </open-files>
 </project-private>

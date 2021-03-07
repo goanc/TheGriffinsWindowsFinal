@@ -87,7 +87,7 @@ gEngine.Input = (function () {
     var mIsButtonClicked = [];
     var mMousePosX = -1;
     var mMousePosY = -1;
-    var isMouseMoving = false;
+    var down = false;
 
     // <editor-fold desc="Event handler functions">
     //<editor-fold desc="Keyboard handlers">
@@ -101,7 +101,6 @@ gEngine.Input = (function () {
 
     //<editor-fold desc="Mouse handlers">
     var _onMouseMove = function (event) {
-        isMouseMoving = true;
         var inside = false;
         var bBox = mCanvas.getBoundingClientRect();
         // In Canvas Space now. Convert via ratio from canvas to client.
@@ -118,12 +117,14 @@ gEngine.Input = (function () {
     };
 
     var _onMouseDown = function (event) {
+        down = true;
         if (_onMouseMove(event)) {
             mIsButtonPressed[event.button] = true;
         }
     };
 
     var _onMouseUp = function (event) {
+        down = false;
         _onMouseMove(event);
         mIsButtonPressed[event.button] = false;
     };
@@ -152,13 +153,11 @@ gEngine.Input = (function () {
         window.addEventListener('mousedown', _onMouseDown);
         window.addEventListener('mouseup', _onMouseUp);
         window.addEventListener('mousemove', _onMouseMove);
-        window.addEventListener('mousedown', isButtonDragging);
         mCanvas = document.getElementById(canvasID);
         //</editor-fold>
     };
 
     var update = function () {
-        isMouseMoving = false;
         var i;
         for (i = 0; i < kKeys.LastKeyCode; i++) {
             mIsKeyClicked[i] = (!mKeyPreviousState[i]) && mIsKeyPressed[i];
@@ -187,6 +186,18 @@ gEngine.Input = (function () {
         return mIsButtonClicked[button];
     };
 
+    var isMouseDown = function () {
+        if (down) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    var mouseWentDown = function () {
+        return true;
+    };
+
     var isButtonDragging = function (button) {
         /*
          * check if moving 
@@ -212,6 +223,8 @@ gEngine.Input = (function () {
         keys: kKeys,
 
         // Mouse support
+        isMouseDown: isMouseDown,
+        mouseWentDown: mouseWentDown,
         isButtonDragging: isButtonDragging,
         isButtonPressed: isButtonPressed,
         isButtonClicked: isButtonClicked,

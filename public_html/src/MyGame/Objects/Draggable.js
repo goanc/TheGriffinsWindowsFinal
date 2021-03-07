@@ -28,19 +28,17 @@ Draggable.prototype.update = function () {
     this.mBorder.update();
 
     var dragArea = this.mBorder.getBBox();
-    var flag = true;
 
-    if (gEngine.Input.isButtonPressed(0)) {
-        flag = false;
-    }
-    if (flag) {
-        if (dragArea.containsPoint(this.mMouseX, this.mMouseY) && gEngine.Input.isButtonPressed(0)) {
+    if (!gEngine.Input.isMouseDown()) {
+        if (dragArea.containsPoint(this.mMouseX, this.mMouseY)) {
             console.log("in bound");
         }
+        if (gEngine.Input.isButtonPressed(0)) {
+            console.log("mouse press");
+        }
     }
-    ;
-    // if mouse clicks in drag area:
-    //  move with mouse
+
+
 };
 
 Draggable.prototype.draw = function (camera) {
