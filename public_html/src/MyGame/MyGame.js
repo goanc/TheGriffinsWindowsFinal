@@ -28,7 +28,7 @@ gEngine.Core.inheritPrototype(MyGame, Scene);
 MyGame.prototype.initialize = function () {
     // Step A: set up the cameras
     this.mCamera = new Camera(
-            vec2.fromValues(30, 27.5), // position of the camera
+            vec2.fromValues(30, 30), // position of the camera
             100, // width of camera
             [0, 0, 640, 480]           // viewport (orgX, orgY, width, height)
             );
@@ -40,7 +40,7 @@ MyGame.prototype.initialize = function () {
     this.mRenderableTest.getXform().setPosition(30, 27.5);
     this.mRenderableTest.getXform().setSize(10, 10);
 
-    this.mDragTest = new Draggable(this.mRenderableTest);
+    this.mDragTest = new Draggable(this.mRenderableTest, this.mCamera);
     this.mDragTest.setDragArea(0, 4, 10, 2);
 
 

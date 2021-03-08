@@ -5,7 +5,7 @@
  */
 "use strict";
 
-function Draggable(renderableObject) {
+function Draggable(renderableObject, camera) {
     this.mRenderableObject = renderableObject;
     this.mDragAreaXOffset = null;
     this.mDragAreaYOffset = null;
@@ -21,6 +21,8 @@ function Draggable(renderableObject) {
 
     this.mBorder = new Box(0, 0, 0, 0);
     this.mBorderState = true;
+
+    this.mCamera = camera;
 }
 ;
 
@@ -31,7 +33,18 @@ Draggable.prototype.initialize = function () {
 Draggable.prototype.update = function () {
     this.mBorder.update();
 
-    //console.log("x ", this.mBorder.getXPos(), " y ", this.mBorder.getYPos());
+    var mouseX = this.mMouseX;
+    var mouseY = this.mMouseY;
+
+    var mouseWindowDifX = this.mRenderableObject.getXform().getXPos() - this.mMouseX;
+    var mouseWindowDifY = this.mRenderableObject.getXform().getYPos() - this.mMouseY;
+
+    var lastMouseX = 0;
+    var lastMouseY = 0;
+
+
+    //console.log("wasDown: " + this.wasDown + " dragging: " + this.dragging);
+
 
     var dragArea = this.mBorder.getBBox();
     if (gEngine.Input.isButtonPressed(0)) {
@@ -39,6 +52,8 @@ Draggable.prototype.update = function () {
             this.wasDown = true;
             if (dragArea.containsPoint(this.mMouseX, this.mMouseY)) {
                 this.dragging = true;
+                lastMouseX = this.mMouseX;
+                lastMouseY = this.mMouseY;
             }
 
         }
@@ -51,13 +66,16 @@ Draggable.prototype.update = function () {
 
     if (this.dragging) {
         // get mouse offset from renderable center
-        var mouseXOffset = this.mMouseX - this.mRenderableObject.getXform().getXPos();
-        var mouseYOffset = this.mMouseY - this.mRenderableObject.getXform().getYPos();
+        var mouseXOffset = this.mRenderableObject.getXform().getXPos() - this.mMouseX;
+        var mouseYOffset = this.mRenderableObject.getXform().getYPos() - this.mMouseY;
 
-        console.log("x ", mouseXOffset, " y ", mouseYOffset);
+        //console.log("x ", mouseXOffset, " y ", mouseYOffset);
 
-        this.mRenderableObject.getXform().setPosition(this.mMouseX + mouseXOffset, this.mMouseY + mouseYOffset);
-        this.mBorder.setBoxCenter(this.mMouseX + this.mDragAreaXOffset + mouseXOffset, this.mMouseY + this.mDragAreaYOffset + mouseYOffset);
+        this.mRenderableObject.getXform().setPosition(this.mMouseX + mouseXOffset, this.mMouseY);
+        this.mBorder.setBoxCenter(this.mMouseX + this.mDragAreaXOffset, this.mMouseY + this.mDragAreaYOffset);
+
+        //onsole.log(this.mCamera.mouseWCX() - mouseX);
+        //console.log(this.mCamera.mouseWCY() - mouseY);
     }
 
 //    if (gEngine.Input.isMouseDown()) {
