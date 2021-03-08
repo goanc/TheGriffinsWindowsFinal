@@ -15,6 +15,9 @@ function Resizeable(renderableObject, camera)
 
     this.initMouseOffsetX = 0;
     this.initMouseOffsetY = 0;
+    
+    this.initMousePosX = 0;
+    this.initMousePosY = 0;
 
     this.mMouseX = null;
     this.mMouseY = null;
@@ -52,6 +55,8 @@ Resizeable.prototype.update = function ()
                 // initial offset between renderable position and mouse
                 this.initMouseOffsetX = this.mRenderableObject.getXform().getXPos() - this.mMouseX;
                 this.initMouseOffsetY = this.mRenderableObject.getXform().getYPos() - this.mMouseY;
+                this.initMousePosX = this.mMouseX;
+                this.initMousePosY = this.mMouseY;
             }
         }
     } 
@@ -66,11 +71,18 @@ Resizeable.prototype.update = function ()
     
     if (this.resizing === true)
     {
-        console.log(this.mResizeAreaYOffset);
-        this.mBorder.setBoxCenter(
-                this.mRenderableObject.getXform().getXPos(),
-                this.mRenderableObject.getXform().getYPos() + this.mResizeAreaYOffset
-                );
+        console.log(this.initMousePosY);
+        
+        this.mRenderableObject.getXform().incHeightBy(this.initMousePosY - this.mMouseY);
+        this.mRenderableObject.getXform().incYPosBy(this.mMouseY - this.initMousePosY);
+        this.initMousePosX = this.mMouseX;
+        this.initMousePosY = this.mMouseY;
+        
+        this.mBorder.setBoxCenter
+        (
+            this.mRenderableObject.getXform().getXPos(),
+            this.mRenderableObject.getXform().getYPos() + this.mResizeAreaYOffset
+        );
     }
 };
 
