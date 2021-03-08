@@ -20,7 +20,6 @@ function Draggable(renderableObject, camera) {
 
     this.wasDown = false;
     this.dragging = false;
-    //this.wasUp = false;
 
     this.mBorder = new Box(0, 0, 0, 0);
     this.mBorderState = true;
