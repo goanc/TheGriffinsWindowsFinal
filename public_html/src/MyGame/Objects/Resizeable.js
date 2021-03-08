@@ -74,14 +74,14 @@ Resizeable.prototype.update = function ()
         console.log(this.initMousePosY);
         
         this.mRenderableObject.getXform().incHeightBy(this.initMousePosY - this.mMouseY);
-        this.mRenderableObject.getXform().incYPosBy(this.mMouseY - this.initMousePosY);
+        this.mRenderableObject.getXform().incYPosBy((this.mMouseY - this.initMousePosY) / 2);
         this.initMousePosX = this.mMouseX;
         this.initMousePosY = this.mMouseY;
         
         this.mBorder.setBoxCenter
         (
             this.mRenderableObject.getXform().getXPos(),
-            this.mRenderableObject.getXform().getYPos() + this.mResizeAreaYOffset
+            this.mMouseY
         );
     }
 };
