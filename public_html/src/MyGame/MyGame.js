@@ -22,6 +22,7 @@ function MyGame() {
 
     this.mCurrentLine = null;
     this.mP1 = null;
+    this.mWindows = [];
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -57,9 +58,18 @@ MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
     this.mCamera.setupViewProjection();
-
     this.mMsg.draw(this.mCamera);
     this.mDragTest.draw(this.mCamera);// only draw status in the main camera
+
+    for (var i = 0; i < this.mWindows.length; i++) {
+        this.mWindows[i].draw(this.mCamera);
+    }
+    for (var j = 0; j < this.mWindows.length; j++) {
+        var cam = this.mWindows[j].getCamera();
+        cam.setupViewProjection();
+        this.mDragTest.draw(cam);
+    }
+    
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
@@ -68,5 +78,20 @@ MyGame.prototype.update = function () {
     this.mDragTest.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
     this.mDragTest.update();
 
-
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
+        var box = new Renderable();
+        box.setColor([0, 0, 1, 1]);
+        box.getXform().setPosition(50, 27.5);
+        box.getXform().setSize(20, 15);
+        var cam = new Camera(vec2.fromValues(30, 27.5), // position of the camera
+            20, // width of camera
+            [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
+            );
+        cam.setBackgroundColor([0.5,0.5,0.5,1]);
+        var window = new Window(box, cam, 2, 1, false, false);
+        this.mWindows.push(window);
+    }
+    for (var i=0; i < this.mWindows.length; i++) {
+        this.mWindows[i].update();
+    }
 };

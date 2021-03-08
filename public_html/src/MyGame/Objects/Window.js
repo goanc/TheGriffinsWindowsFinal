@@ -4,32 +4,47 @@
  * An object that is directly tied to its own camera and viewport
  */
 
-//Is created with a renderable to display the viewport upon, the camera, the offset of the viewport from the edge of the renderable,
-//the width and height of the window, and the layer of the window in comparison to other windows
-function Window(renderableObject, camera ,xPos, yPos, offset, width, height, layer) {
+function Window(renderableObject, camera, offset, layer, drag, resize) {
     this.mRenderableObject = renderableObject;
     this.mCamera = camera;
-    this.getXform().setPosition(xPos, yPos);
     this.mOffset = offset;
-    this.getXform().setSize(width, height);
     this.mLayer = layer;
-    this.mDrag = false;
-    this.mResize = false;
+    this.mIsDrag = drag; 
+    this.mIsResize = resize;
     this.mVisible = true;
+    this.mDraggable = null;
+    this.mResizeable = null;
 }
 
 gEngine.Core.inheritPrototype(Window, GameObject);
 
 Window.prototype.initialize = function() {
-    
+    if (this.mIsDrag) {
+        this.mDraggable = new Draggable(this.mRenderableObject);
+    };
+    if (this.mIsResize) {
+        this.mResizeable = new Resizeable(this.mRenderableObject);
+    };
 }
 
-Window.prototype.setDraggable = function(bool) {
-    this.mDrag = bool;
+Window.prototype.setIsDrag = function(bool) {
+    this.mIsDrag = bool;
+    if (this.mIsDrag) {
+        this.mDraggable = new Draggable(this.mRenderableObject);
+    }
+    else {
+        this.mDraggable = null;
+    };
 }
 
-Window.prototype.setResizeable = function(bool) {
-    this.mDraw = bool;
+Window.prototype.setIsResize = function(bool) {
+    this.mIsResize = bool;
+    if (this.mIsResize) {
+        this.mResizeable = new Resizeable(this.mRenderableObject);
+    }
+    else {
+        this.mResizeable = null;
+    };
 }
 
 Window.prototype.draw = function(camera) {
@@ -38,6 +53,18 @@ Window.prototype.draw = function(camera) {
     }
 }
 
+Window.prototype.getCamera = function() {
+    return this.mCamera;
+}
+
 Window.prototype.update = function () {
-    
+    //Sets viewport to position and size of renderable
+    this.mCamera.setViewport([this.mRenderableObject.getXform().getXPos(), this.mRenderableObject.getXform().getYPos(), 
+        this.mRenderableObject.getXform().getWidth(), this.mRenderableObject.getXform().getHeight()], this.mOffset);
+    if (this.mIsDrag) {
+        this.mDraggable.update();
+    }
+    if (this.mIsResize) {
+        this.mResizeable.update();
+    }
 }
