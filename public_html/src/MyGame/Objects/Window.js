@@ -11,32 +11,34 @@ function Window(renderableObject, camera, offset, layer, drag, resize) {
     this.mCamera = camera;
     this.mOffset = offset;
     this.mLayer = layer;
-    this.mDrag = drag; 
-    this.mResize = resize;
+    this.mIsDrag = drag; 
+    this.mIsResize = resize;
     this.mVisible = true;
+    this.mDraggable = null;
+    this.mResizeable = null;
 }
 
 gEngine.Core.inheritPrototype(Window, GameObject);
 
 Window.prototype.initialize = function() {
-    if (this.mDrag) {
+    if (this.mIsDrag) {
         
     };
-    if (this.mResize) {
+    if (this.mIsResize) {
         
     };
 }
 
 Window.prototype.setDraggable = function(bool) {
-    this.mDrag = bool;
-    if (this.mDrag) {
+    this.mIsDrag = bool;
+    if (this.mIsDrag) {
         
     };
 }
 
 Window.prototype.setResizeable = function(bool) {
-    this.mResize = bool;
-    if (this.mResize) {
+    this.mIsResize = bool;
+    if (this.mIsResize) {
         
     };
 }
@@ -54,10 +56,10 @@ Window.prototype.getCamera = function() {
 Window.prototype.update = function () {
     //Sets viewport to position and size of renderable
     this.mCamera.setViewport([this.getXform().getXpos(), this.getXform().getYpos(), this.getXform().getWidth(), this.getXform().getHeight()], this.mOffset);
-    if (this.mDrag != null) {
-        this.mDrag.update();
+    if (this.mIsDrag != null) {
+        this.mDraggable.update();
     }
-    if (this.mResize != null) {
-        this.mResize.update();
+    if (this.mIsResize != null) {
+        this.mResizeable.update();
     }
 }
