@@ -55,8 +55,8 @@ MyGame.prototype.initialize = function () {
     this.mDragTest = new Draggable(this.mRenderableTest, this.mCamera);
     this.mDragTest.setDragArea(0, 4, 10, 2);
     
-    //this.mResizeTest = new Resizeable(this.mRenderableTest, this.mCamera);
-    //this.mResizeTest.setResizeArea(0, -4, 10, 2);
+    this.mResizeTest = new Resizeable(this.mRenderableTest, this.mCamera);
+    this.mResizeTest.setResizeArea(0, -4, 10, 2);
 
 
     this.mMsg = new FontRenderable("Status Message");
@@ -89,7 +89,7 @@ MyGame.prototype.draw = function () {
     this.mCamera.setupViewProjection();
     this.mMsg.draw(this.mCamera);
     this.mDragTest.draw(this.mCamera);// only draw status in the main camera
-    //this.mResizeTest.draw(this.mCamera);
+    this.mResizeTest.draw(this.mCamera);
 
 
     for (var i = 0; i < this.mWindows.length; i++) {
@@ -99,7 +99,7 @@ MyGame.prototype.draw = function () {
         var cam = this.mWindows[j].getCamera();
         cam.setupViewProjection();
         this.mDragTest.draw(cam);
-        //this.mResizeTest.draw(cam);
+        this.mResizeTest.draw(cam);
     }
 
 };
@@ -110,8 +110,8 @@ MyGame.prototype.update = function () {
     this.mDragTest.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
     this.mDragTest.update();
     
-    //this.mResizeTest.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
-    //this.mResizeTest.update();
+    this.mResizeTest.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
+    this.mResizeTest.update();
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
         var box = new Renderable();
