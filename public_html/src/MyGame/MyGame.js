@@ -91,4 +91,7 @@ MyGame.prototype.update = function () {
         var window = new Window(box, cam, 2, 1, false, false);
         this.mWindows.push(window);
     }
+    for (var i=0; i < this.mWindows.length; i++) {
+        this.mWindows[i].update();
+    }
 };
