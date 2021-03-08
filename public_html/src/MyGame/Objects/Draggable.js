@@ -12,6 +12,9 @@ function Draggable(renderableObject, camera) {
     this.mDragAreaWidth = null;
     this.mDragAreaHeight = null;
 
+    this.initMouseOffsetX = 0;
+    this.initMouseOffsetY = 0;
+
     this.mMouseX = null;
     this.mMouseY = null;
 
@@ -32,32 +35,30 @@ Draggable.prototype.initialize = function () {
 
 Draggable.prototype.update = function () {
     this.mBorder.update();
-
-    var mouseX = this.mMouseX;
-    var mouseY = this.mMouseY;
-
-    var mouseWindowDifX = this.mRenderableObject.getXform().getXPos() - this.mMouseX;
-    var mouseWindowDifY = this.mRenderableObject.getXform().getYPos() - this.mMouseY;
-
-    var lastMouseX = 0;
-    var lastMouseY = 0;
-
-
-    //console.log("wasDown: " + this.wasDown + " dragging: " + this.dragging);
-
-
     var dragArea = this.mBorder.getBBox();
+
+
     if (gEngine.Input.isButtonPressed(0)) {
+        // if the mouse was not already down
+        // (i.e. down and moved into the drag area)
         if (!this.wasDown) {
             this.wasDown = true;
+
+            // if the mouse is in the drag area
+            // and not down before
             if (dragArea.containsPoint(this.mMouseX, this.mMouseY)) {
+
+                // now we are dragging and can move
                 this.dragging = true;
-                lastMouseX = this.mMouseX;
-                lastMouseY = this.mMouseY;
+
+                // initial offset between renderable position and mouse
+                this.initMouseOffsetX = this.mRenderableObject.getXform().getXPos() - this.mMouseX;
+                this.initMouseOffsetY = this.mRenderableObject.getXform().getYPos() - this.mMouseY;
             }
 
         }
     } else {
+        // if mouse was not pressed and down 
         if (this.wasDown) {
             this.wasDown = false;
             this.dragging = false;
@@ -65,33 +66,14 @@ Draggable.prototype.update = function () {
     }
 
     if (this.dragging) {
-        // get mouse offset from renderable center
-        var mouseXOffset = this.mRenderableObject.getXform().getXPos() - this.mMouseX;
-        var mouseYOffset = this.mRenderableObject.getXform().getYPos() - this.mMouseY;
+        // move renderable to mouse position + init offset
+        // then move border to renderable position + drag area offset
+        this.mRenderableObject.getXform().setPosition(this.mMouseX + this.initMouseOffsetX, this.mMouseY + this.initMouseOffsetY);
+        this.mBorder.setBoxCenter(this.mRenderableObject.getXform().getXPos() + this.mDragAreaXOffset,
+                this.mRenderableObject.getXform().getYPos() + this.mDragAreaYOffset
+                );
 
-        //console.log("x ", mouseXOffset, " y ", mouseYOffset);
-
-        this.mRenderableObject.getXform().setPosition(this.mMouseX + mouseXOffset, this.mMouseY);
-        this.mBorder.setBoxCenter(this.mMouseX + this.mDragAreaXOffset, this.mMouseY + this.mDragAreaYOffset);
-
-        //onsole.log(this.mCamera.mouseWCX() - mouseX);
-        //console.log(this.mCamera.mouseWCY() - mouseY);
     }
-
-//    if (gEngine.Input.isMouseDown()) {
-//
-//    }
-//    if (!gEngine.Input.isMouseDown()) {
-//        console.log("down");
-//        if (dragArea.containsPoint(this.mMouseX, this.mMouseY)) {
-//            console.log("in bound");
-//        }
-//        if (gEngine.Input.isButtonPressed(0)) {
-//            console.log("mouse press");
-//        }
-//    }
-
-
 };
 
 Draggable.prototype.draw = function (camera) {
