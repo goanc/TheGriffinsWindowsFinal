@@ -54,4 +54,10 @@ Window.prototype.getCamera = function() {
 Window.prototype.update = function () {
     //Sets viewport to position and size of renderable
     this.mCamera.setViewport([this.getXform().getXpos(), this.getXform().getYpos(), this.getXform().getWidth(), this.getXform().getHeight()], this.mOffset);
+    if (this.mDrag != null) {
+        this.mDrag.update();
+    }
+    if (this.mResize != null) {
+        this.mResize.update();
+    }
 }

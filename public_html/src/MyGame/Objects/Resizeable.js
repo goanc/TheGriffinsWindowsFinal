@@ -13,6 +13,8 @@ function Resizeable(renderableObject)
     this.topRight = [];
     this.topLeft = [];
     this.resizeAreaSize = null;
+    
+    this.mousePos = [];
 };
 
 Resizeable.prototype.setup = function (bRX, bRY, bLX, bLY, tRX, tRY, tLX, tLY, size) 
