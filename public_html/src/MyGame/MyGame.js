@@ -19,12 +19,22 @@ function MyGame() {
 
     this.mDragTest = null;
     this.mRenderableTest = null;
+    this.mSpriteAnimate = null;
 
+    this.kSpriteSheet = "assets/SpriteSheet.png";
     this.mCurrentLine = null;
     this.mP1 = null;
     this.mWindows = [];
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
+
+MyGame.prototype.loadScene = function () {
+    gEngine.Textures.loadTexture(this.kSpriteSheet);
+};
+
+MyGame.prototype.unloadScene = function () {
+    gEngine.Textures.unloadTexture(this.kSpriteSheet);
+};
 
 MyGame.prototype.initialize = function () {
     // Step A: set up the cameras
@@ -41,14 +51,25 @@ MyGame.prototype.initialize = function () {
     this.mRenderableTest.getXform().setPosition(30, 27.5);
     this.mRenderableTest.getXform().setSize(10, 10);
 
-    this.mDragTest = new Draggable(this.mRenderableTest, this.mCamera);
-    this.mDragTest.setDragArea(0, 4, 10, 2);
-
-
     this.mMsg = new FontRenderable("Status Message");
     this.mMsg.setColor([0, 0, 0, 1]);
     this.mMsg.getXform().setPosition(-19, -8);
     this.mMsg.setTextHeight(3);
+
+    this.mSpriteAnimate = new SpriteAnimateRenderable(this.kSpriteSheet);
+    this.mSpriteAnimate.setColor([1, 1, 1, 0]);
+    this.mSpriteAnimate.getXform().setPosition(this.mSpawnX, this.mSpawnY);
+    this.mSpriteAnimate.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    this.mSpriteAnimate.setAnimationSpeed(50);
+    this.mSpriteAnimate.getXform().setPosition(10, 10);
+    this.mSpriteAnimate.getXform().setSize(12, 10);
+    this.mSpriteAnimate.setSpriteSequence(512, 0, // first element pixel position: top-left 512 is top of image, 0 is left of image
+            204, 164, // widthxheight in pixels
+            5, // number of elements in this sequence
+            0);
+
+    this.mDragTest = new Draggable(this.mSpriteAnimate, this.mCamera);
+    this.mDragTest.setDragArea(0, 4, 10, 2);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -61,6 +82,7 @@ MyGame.prototype.draw = function () {
     this.mMsg.draw(this.mCamera);
     this.mDragTest.draw(this.mCamera);// only draw status in the main camera
 
+
     for (var i = 0; i < this.mWindows.length; i++) {
         this.mWindows[i].draw(this.mCamera);
     }
@@ -69,7 +91,7 @@ MyGame.prototype.draw = function () {
         cam.setupViewProjection();
         this.mDragTest.draw(cam);
     }
-    
+
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
@@ -77,6 +99,7 @@ MyGame.prototype.draw = function () {
 MyGame.prototype.update = function () {
     this.mDragTest.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
     this.mDragTest.update();
+    this.mSpriteAnimate.updateAnimation();
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
         var box = new Renderable();
@@ -84,14 +107,14 @@ MyGame.prototype.update = function () {
         box.getXform().setPosition(50, 27.5);
         box.getXform().setSize(20, 15);
         var cam = new Camera(vec2.fromValues(30, 27.5), // position of the camera
-            20, // width of camera
-            [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
-            );
-        cam.setBackgroundColor([0.5,0.5,0.5,1]);
+                20, // width of camera
+                [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
+                );
+        cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
         var window = new Window(box, cam, 2, 1, false, false);
         this.mWindows.push(window);
     }
-    for (var i=0; i < this.mWindows.length; i++) {
+    for (var i = 0; i < this.mWindows.length; i++) {
         this.mWindows[i].update();
     }
 };
