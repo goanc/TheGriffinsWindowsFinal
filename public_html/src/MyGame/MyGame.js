@@ -27,18 +27,22 @@ function MyGame() {
     this.mPatrol = null;
 
     this.kSpriteSheet = "assets/SpriteSheet.png";
+    this.kWindowSprite = "assets/computerwindow.png";
     this.mCurrentLine = null;
     this.mP1 = null;
-    this.mWindows = [];
+    this.mWindows = null;
+    this.mDrawnObjects = [];
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
 MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kSpriteSheet);
+    gEngine.Textures.loadTexture(this.kWindowSprite);
 };
 
 MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kSpriteSheet);
+    gEngine.Textures.unloadTexture(this.kWindowSprite);
 };
 
 MyGame.prototype.initialize = function () {
@@ -94,6 +98,8 @@ MyGame.prototype.initialize = function () {
 
     this.mDragGameObject = new Draggable(this.mPatrol.getHead(), this.mCamera);
     this.mDragGameObject.setDragArea(0, 0, 5, 5);
+    
+    this.mWindows = new WindowManager();
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -103,18 +109,12 @@ MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
     this.mCamera.setupViewProjection();
-    this.mMsg.draw(this.mCamera);
-    this.mDragTest.draw(this.mCamera);// only draw status in the main camera
-    this.mDragTest2.draw(this.mCamera);
-
-
-    this.mResizeTest.draw(this.mCamera);
-    this.mPatrol.draw(this.mCamera);
-    this.mDragGameObject.draw(this.mCamera);
-
-    for (var i = 0; i < this.mWindows.length; i++) {
-        this.mWindows[i].draw(this.mCamera);
+    for (var i = 0; i < this.mDrawnObjects.length; i++) {
+        this.mDrawnObjects[i].draw(this.mCamera);
     }
+
+    this.mWindows.draw(this.mCamera, this.mDrawnObjects);
+    
     for (var j = 0; j < this.mWindows.length; j++) {
         var cam = this.mWindows[j].getCamera();
         cam.setupViewProjection();
@@ -144,8 +144,8 @@ MyGame.prototype.update = function () {
     this.mResizeTest.update();
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
-        var box = new Renderable();
-        box.setColor([0, 0, 1, 1]);
+        var box = new TextureRenderable(this.kWindowSprite);
+        box.setColor([1, 1, 1, 0]);
         box.getXform().setPosition(50, 27.5);
         box.getXform().setSize(20, 15);
         var cam = new Camera(vec2.fromValues(30, 27.5), // position of the camera
@@ -153,10 +153,10 @@ MyGame.prototype.update = function () {
                 [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
                 );
         cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
-        var window = new Window(box, cam, 2, 1, false, false);
-        this.mWindows.push(window);
+        var window = new Window(box, this.mCamera, cam, 2, false, false);
+        this.mWindows.add(window, true);
     }
-    for (var i = 0; i < this.mWindows.length; i++) {
-        this.mWindows[i].update();
-    }
+    this.mWindows.update();
+    
+    this.mDrawnObjects = [this.mDragTest, this.mDragTest2, this.mDragGameObject, this.mPatrol, this.mResizeTest];
 };
