@@ -15,7 +15,7 @@ function Window(renderableObject, mainCam, windowCam, offset, layer, drag, resiz
     this.mVisible = true;
     this.mDraggable = null;
     this.mResizeable = null;
-}
+};
 
 gEngine.Core.inheritPrototype(Window, GameObject);
 
@@ -74,5 +74,5 @@ Window.prototype.update = function () {
     }
     if (this.mIsResize) {
         this.mResizeable.update();
-    }
-}
+    };
+};
