@@ -25,7 +25,10 @@ function Resizeable(renderableObject, camera)
     this.wasDown = false;
     this.resizing = false;
 
-    this.mBorder = new Box(0, 0, 0, 0);
+    this.mBorderBottom = new Box(0, 0, 0, 0);
+    this.mBorderTop = new Box(0, 0, 0, 0);
+    this.mBorderRight = new Box(0, 0, 0, 0);
+    this.mBorderLeft = new Box(0, 0, 0, 0);
     this.mBorderState = true;
 
     this.mCamera = camera;
@@ -33,13 +36,15 @@ function Resizeable(renderableObject, camera)
 
 Resizeable.prototype.initialize = function () 
 {
-    
+    this.mBorderBottom.setBoxCenter(this.mRenderableObject.getXform().getXPos(), this.mRenderableObject.getXform().getYPos() - (this.mRenderableObject.getXform().getHeight() / 2) + 1);
+    this.mBorderBottom.setWidth(this.mRenderableObject.getXform().getWidth());
+    this.mBorderBottom.setHeight(1);
 };
 
 Resizeable.prototype.update = function () 
 {
-    this.mBorder.update();
-    var dragArea = this.mBorder.getBBox();
+    this.mBorderBottom.update();
+    var dragArea = this.mBorderBottom.getBBox();
 
 
     if (gEngine.Input.isButtonPressed(0)) 
@@ -71,17 +76,16 @@ Resizeable.prototype.update = function ()
     
     if (this.resizing === true)
     {
-        console.log(this.initMousePosY);
-        
+        console.log((this.mRenderableObject.getXform().getHeight() / 2) + 1);
         this.mRenderableObject.getXform().incHeightBy(this.initMousePosY - this.mMouseY);
         this.mRenderableObject.getXform().incYPosBy((this.mMouseY - this.initMousePosY) / 2);
         this.initMousePosX = this.mMouseX;
         this.initMousePosY = this.mMouseY;
         
-        this.mBorder.setBoxCenter
+        this.mBorderBottom.setBoxCenter
         (
             this.mRenderableObject.getXform().getXPos(),
-            this.mMouseY
+            this.mRenderableObject.getXform().getYPos() - (this.mRenderableObject.getXform().getHeight() / 2) + 1
         );
     }
 };
@@ -91,20 +95,20 @@ Resizeable.prototype.draw = function (camera)
     this.mRenderableObject.draw(camera);
     if (this.mBorderState) 
     {
-        this.mBorder.draw(camera);
+        this.mBorderBottom.draw(camera);
     }
 };
 
 Resizeable.prototype.setResizeArea = function (xOffset, yOffset, width, height) 
 {
-    this.mResizeAreaXOffset = xOffset;
-    this.mResizeAreaYOffset = yOffset;
-    this.mResizeAreaWidth = width;
-    this.mResizeAreaHeight = height;
-
-    this.mBorder.setBoxCenter(this.mRenderableObject.getXform().getXPos() + xOffset, this.mRenderableObject.getXform().getYPos() + yOffset);
-    this.mBorder.setWidth(width);
-    this.mBorder.setHeight(height);
+//    this.mResizeAreaXOffset = xOffset;
+//    this.mResizeAreaYOffset = yOffset;
+//    this.mResizeAreaWidth = width;
+//    this.mResizeAreaHeight = height;
+//
+//    this.mBorder.setBoxCenter(this.mRenderableObject.getXform().getXPos() + xOffset, this.mRenderableObject.getXform().getYPos() + yOffset);
+//    this.mBorder.setWidth(width);
+//    this.mBorder.setHeight(height);
 };
 
 Resizeable.prototype.setMousePosition = function (x, y) 
