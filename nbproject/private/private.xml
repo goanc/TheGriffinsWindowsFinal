@@ -5,7 +5,7 @@
             <url>public_html/src/MyGame/MyGame.js</url>
             <bookmark id="1">
                 <name/>
-                <line>70</line>
+                <line>92</line>
                 <key/>
             </bookmark>
         </file>
@@ -15,6 +15,15 @@
         <group name="BookChapters"/>
         <group name="AllBookProjects"/>
         <group name="Apress-2d-game-engine"/>
-        <group/>
+        <group>
+            <file>file:/Users/stephenswetonic/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/Engine/GameObjects/GameObject.js</file>
+            <file>file:/Users/stephenswetonic/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/MyGame/Objects/Resizeable.js</file>
+            <file>file:/Users/stephenswetonic/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/MyGame/Objects/Draggable.js</file>
+            <file>file:/Users/stephenswetonic/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/Engine/Core/Engine_Input.js</file>
+            <file>file:/Users/stephenswetonic/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/MyGame/MyGame.js</file>
+            <file>file:/Users/stephenswetonic/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/Engine/Renderables/Box.js</file>
+            <file>file:/Users/stephenswetonic/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/Engine/Cameras/Camera.js</file>
+            <file>file:/Users/stephenswetonic/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/MyGame/Objects/Window.js</file>
+        </group>
     </open-files>
 </project-private>

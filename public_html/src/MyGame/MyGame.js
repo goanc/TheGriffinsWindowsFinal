@@ -18,8 +18,10 @@ function MyGame() {
     this.mMsg = null;
 
     this.mDragTest = null;
+    this.mDragTest2 = null;
     this.mResizeTest = null;
     this.mRenderableTest = null;
+    this.mRenderableTest2 = null;
     this.mSpriteAnimate = null;
 
     this.kSpriteSheet = "assets/SpriteSheet.png";
@@ -52,9 +54,11 @@ MyGame.prototype.initialize = function () {
     this.mRenderableTest.getXform().setPosition(30, 27.5);
     this.mRenderableTest.getXform().setSize(10, 10);
 
-    this.mDragTest = new Draggable(this.mRenderableTest, this.mCamera);
-    this.mDragTest.setDragArea(0, 4, 10, 2);
-    
+    this.mRenderableTest2 = new Renderable();
+    this.mRenderableTest2.setColor([1, 1, 0, 1]);
+    this.mRenderableTest2.getXform().setPosition(40, 40);
+    this.mRenderableTest2.getXform().setSize(10, 10);
+
     this.mResizeTest = new Resizeable(this.mRenderableTest, this.mCamera);
     this.mResizeTest.setResizeArea(0, -4, 10, 2);
 
@@ -78,6 +82,9 @@ MyGame.prototype.initialize = function () {
 
     this.mDragTest = new Draggable(this.mSpriteAnimate, this.mCamera);
     this.mDragTest.setDragArea(0, 4, 10, 2);
+
+    this.mDragTest2 = new Draggable(this.mRenderableTest2, this.mCamera);
+    this.mDragTest2.setDragArea(0, 4, 10, 2);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -89,6 +96,7 @@ MyGame.prototype.draw = function () {
     this.mCamera.setupViewProjection();
     this.mMsg.draw(this.mCamera);
     this.mDragTest.draw(this.mCamera);// only draw status in the main camera
+    this.mDragTest2.draw(this.mCamera);
     this.mResizeTest.draw(this.mCamera);
 
 
@@ -109,7 +117,13 @@ MyGame.prototype.draw = function () {
 MyGame.prototype.update = function () {
     this.mDragTest.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
     this.mDragTest.update();
-    
+
+    this.mDragTest2.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
+    this.mDragTest2.update();
+
+
+    this.mSpriteAnimate.updateAnimation();
+
     this.mResizeTest.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
     this.mResizeTest.update();
 
