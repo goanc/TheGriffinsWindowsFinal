@@ -19,10 +19,12 @@ function MyGame() {
 
     this.mDragTest = null;
     this.mDragTest2 = null;
+    this.mDragGameObject = null;
     this.mResizeTest = null;
     this.mRenderableTest = null;
     this.mRenderableTest2 = null;
     this.mSpriteAnimate = null;
+    this.mPatrol = null;
 
     this.kSpriteSheet = "assets/SpriteSheet.png";
     this.mCurrentLine = null;
@@ -85,6 +87,13 @@ MyGame.prototype.initialize = function () {
 
     this.mDragTest2 = new Draggable(this.mRenderableTest2, this.mCamera);
     this.mDragTest2.setDragArea(0, 4, 10, 2);
+
+    this.mPatrol = new Patrol(10, 40, true);
+    this.mPatrol.initialize();
+    this.mPatrol.stop();
+
+    this.mDragGameObject = new Draggable(this.mPatrol.getHead(), this.mCamera);
+    this.mDragGameObject.setDragArea(0, 0, 5, 5);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -97,8 +106,11 @@ MyGame.prototype.draw = function () {
     this.mMsg.draw(this.mCamera);
     this.mDragTest.draw(this.mCamera);// only draw status in the main camera
     this.mDragTest2.draw(this.mCamera);
-    this.mResizeTest.draw(this.mCamera);
 
+
+    this.mResizeTest.draw(this.mCamera);
+    this.mPatrol.draw(this.mCamera);
+    this.mDragGameObject.draw(this.mCamera);
 
     for (var i = 0; i < this.mWindows.length; i++) {
         this.mWindows[i].draw(this.mCamera);
@@ -121,8 +133,12 @@ MyGame.prototype.update = function () {
     this.mDragTest2.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
     this.mDragTest2.update();
 
+    this.mDragGameObject.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
+    this.mDragGameObject.update();
 
     this.mSpriteAnimate.updateAnimation();
+    this.mPatrol.update();
+
 
     this.mResizeTest.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
     this.mResizeTest.update();
