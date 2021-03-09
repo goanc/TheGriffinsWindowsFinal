@@ -27,6 +27,7 @@ function MyGame() {
     this.mPatrol = null;
 
     this.kSpriteSheet = "assets/SpriteSheet.png";
+    this.kWindowSprite = "assets/computerwindow.png";
     this.mCurrentLine = null;
     this.mP1 = null;
     this.mWindows = null;
@@ -36,10 +37,12 @@ gEngine.Core.inheritPrototype(MyGame, Scene);
 
 MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kSpriteSheet);
+    gEngine.Textures.loadTexture(this.kWindowSprite);
 };
 
 MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kSpriteSheet);
+    gEngine.Textures.unloadTexture(this.kWindowSprite);
 };
 
 MyGame.prototype.initialize = function () {
@@ -141,8 +144,8 @@ MyGame.prototype.update = function () {
     this.mResizeTest.update();
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
-        var box = new Renderable();
-        box.setColor([0, 0, 1, 1]);
+        var box = new TextureRenderable(this.kWindowSprite);
+        box.setColor([1, 1, 1, 0]);
         box.getXform().setPosition(50, 27.5);
         box.getXform().setSize(20, 15);
         var cam = new Camera(vec2.fromValues(30, 27.5), // position of the camera
