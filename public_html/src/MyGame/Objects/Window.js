@@ -4,9 +4,10 @@
  * An object that is directly tied to its own camera and viewport
  */
 
-function Window(renderableObject, camera, offset, layer, drag, resize) {
+function Window(renderableObject, mainCam, windowCam, offset, layer, drag, resize) {
     this.mRenderableObject = renderableObject;
-    this.mCamera = camera;
+    this.mMainCam = mainCam;
+    this.mCamera = windowCam;
     this.mOffset = offset;
     this.mLayer = layer;
     this.mIsDrag = drag; 
@@ -58,9 +59,12 @@ Window.prototype.getCamera = function() {
 }
 
 Window.prototype.update = function () {
-    //Sets viewport to position and size of renderable
-    this.mCamera.setViewport([this.mRenderableObject.getXform().getXPos(), this.mRenderableObject.getXform().getYPos(), 
-        this.mRenderableObject.getXform().getWidth(), this.mRenderableObject.getXform().getHeight()], this.mOffset);
+    var x = this.mRenderableObject.getXform().getXPos();
+    var y = this.mRenderableObject.getXform().getYPos();
+    var width =  this.mRenderableObject.getXform().getWidth();
+    var height =  this.mRenderableObject.getXform().getHeight();
+    //Sets viewport to position and size of renderable 
+    this.mCamera.setViewport([x, y, width, height]);
     if (this.mIsDrag) {
         this.mDraggable.update();
     }
