@@ -23,7 +23,11 @@ function Resizeable(renderableObject, camera)
     this.mMouseY = null;
 
     this.wasDown = false;
-    this.resizing = false;
+    
+    this.resizingBottom = false;
+    this.resizingTop = false;
+    this.resizingRight = false;
+    this.resizingLeft = false;
 
     this.mBorderBottom = new Box(0, 0, 0, 0);
     this.mBorderTop = new Box(0, 0, 0, 0);
@@ -36,15 +40,34 @@ function Resizeable(renderableObject, camera)
 
 Resizeable.prototype.initialize = function () 
 {
-    this.mBorderBottom.setBoxCenter(this.mRenderableObject.getXform().getXPos(), this.mRenderableObject.getXform().getYPos() - (this.mRenderableObject.getXform().getHeight() / 2) + 1);
+    this.mBorderBottom.setBoxCenter(this.mRenderableObject.getXform().getXPos(), this.mRenderableObject.getXform().getYPos() - (this.mRenderableObject.getXform().getHeight() / 2) + 0.5);
     this.mBorderBottom.setWidth(this.mRenderableObject.getXform().getWidth());
     this.mBorderBottom.setHeight(1);
+    
+    this.mBorderTop.setBoxCenter(this.mRenderableObject.getXform().getXPos(), this.mRenderableObject.getXform().getYPos() + (this.mRenderableObject.getXform().getHeight() / 2) - 0.5);
+    this.mBorderTop.setWidth(this.mRenderableObject.getXform().getWidth());
+    this.mBorderTop.setHeight(1);
+    
+    this.mBorderRight.setBoxCenter(this.mRenderableObject.getXform().getXPos() + (this.mRenderableObject.getXform().getWidth() / 2) - 0.5, this.mRenderableObject.getXform().getYPos());
+    this.mBorderRight.setWidth(1);
+    this.mBorderRight.setHeight(this.mRenderableObject.getXform().getHeight());
+    
+    this.mBorderLeft.setBoxCenter(this.mRenderableObject.getXform().getXPos() - (this.mRenderableObject.getXform().getWidth() / 2) + 0.5, this.mRenderableObject.getXform().getYPos());
+    this.mBorderLeft.setWidth(1);
+    this.mBorderLeft.setHeight(this.mRenderableObject.getXform().getHeight());
 };
 
 Resizeable.prototype.update = function () 
 {
     this.mBorderBottom.update();
-    var dragArea = this.mBorderBottom.getBBox();
+    this.mBorderTop.update();
+    this.mBorderRight.update();
+    this.mBorderLeft.update();
+    
+    var dragAreaBottom = this.mBorderBottom.getBBox();
+    var dragAreaTop = this.mBorderTop.getBBox();
+    var dragAreaRight = this.mBorderRight.getBBox();
+    var dragAreaLeft = this.mBorderLeft.getBBox();
 
 
     if (gEngine.Input.isButtonPressed(0)) 
@@ -53,13 +76,31 @@ Resizeable.prototype.update = function ()
         {
             this.wasDown = true;
 
-            if (dragArea.containsPoint(this.mMouseX, this.mMouseY)) 
+            if (dragAreaBottom.containsPoint(this.mMouseX, this.mMouseY)) 
             {
-                this.resizing = true;
+                this.resizingBottom = true;
 
-                // initial offset between renderable position and mouse
-                this.initMouseOffsetX = this.mRenderableObject.getXform().getXPos() - this.mMouseX;
-                this.initMouseOffsetY = this.mRenderableObject.getXform().getYPos() - this.mMouseY;
+                this.initMousePosX = this.mMouseX;
+                this.initMousePosY = this.mMouseY;
+            }
+            if (dragAreaTop.containsPoint(this.mMouseX, this.mMouseY)) 
+            {
+                this.resizingTop = true;
+
+                this.initMousePosX = this.mMouseX;
+                this.initMousePosY = this.mMouseY;
+            }
+            if (dragAreaRight.containsPoint(this.mMouseX, this.mMouseY)) 
+            {
+                this.resizingRight = true;
+
+                this.initMousePosX = this.mMouseX;
+                this.initMousePosY = this.mMouseY;
+            }
+            if (dragAreaLeft.containsPoint(this.mMouseX, this.mMouseY)) 
+            {
+                this.resizingLeft = true;
+
                 this.initMousePosX = this.mMouseX;
                 this.initMousePosY = this.mMouseY;
             }
@@ -70,23 +111,50 @@ Resizeable.prototype.update = function ()
         if (this.wasDown) 
         {
             this.wasDown = false;
-            this.resizing = false;
+            this.resizingBottom = false;
+            this.resizingTop = false;
+            this.resizingRight = false;
+            this.resizingLeft = false;
         }
     }
-    
-    if (this.resizing === true)
+    console.log(this.resizingTop);
+    if (this.resizingBottom === true)
     {
-        console.log((this.mRenderableObject.getXform().getHeight() / 2) + 1);
         this.mRenderableObject.getXform().incHeightBy(this.initMousePosY - this.mMouseY);
-        this.mRenderableObject.getXform().incYPosBy((this.mMouseY - this.initMousePosY) / 2);
+        this.mRenderableObject.getXform().incYPosBy((this.mMouseY - this.initMousePosY) / 2);     
+    }
+    if (this.resizingTop === true)
+    {
+        this.mRenderableObject.getXform().incHeightBy(this.mMouseY - this.initMousePosY);
+        this.mRenderableObject.getXform().incYPosBy((this.mMouseY - this.initMousePosY) / 2);  
+    }
+    if (this.resizingRight === true)
+    {
+        this.mRenderableObject.getXform().incWidthBy(this.mMouseX - this.initMousePosX);
+        this.mRenderableObject.getXform().incXPosBy((this.mMouseX - this.initMousePosX) / 2);   
+    }
+    if (this.resizingLeft === true)
+    {
+        this.mRenderableObject.getXform().incWidthBy(this.initMousePosX - this.mMouseX);
+        this.mRenderableObject.getXform().incXPosBy((this.mMouseX - this.initMousePosX) / 2); 
+    }
+    
+    if (this.resizingBottom || this.resizingTop || this.resizingRight || this.resizingLeft)
+    {
         this.initMousePosX = this.mMouseX;
         this.initMousePosY = this.mMouseY;
         
-        this.mBorderBottom.setBoxCenter
-        (
-            this.mRenderableObject.getXform().getXPos(),
-            this.mRenderableObject.getXform().getYPos() - (this.mRenderableObject.getXform().getHeight() / 2) + 1
-        );
+        this.mBorderBottom.setBoxCenter(this.mRenderableObject.getXform().getXPos(), this.mRenderableObject.getXform().getYPos() - (this.mRenderableObject.getXform().getHeight() / 2) + 0.5);
+        this.mBorderBottom.setWidth(this.mRenderableObject.getXform().getWidth());
+
+        this.mBorderTop.setBoxCenter(this.mRenderableObject.getXform().getXPos(), this.mRenderableObject.getXform().getYPos() + (this.mRenderableObject.getXform().getHeight() / 2) - 0.5);
+        this.mBorderTop.setWidth(this.mRenderableObject.getXform().getWidth());
+
+        this.mBorderRight.setBoxCenter(this.mRenderableObject.getXform().getXPos() + (this.mRenderableObject.getXform().getWidth() / 2) - 0.5, this.mRenderableObject.getXform().getYPos());
+        this.mBorderRight.setHeight(this.mRenderableObject.getXform().getHeight());
+
+        this.mBorderLeft.setBoxCenter(this.mRenderableObject.getXform().getXPos() - (this.mRenderableObject.getXform().getWidth() / 2) + 0.5, this.mRenderableObject.getXform().getYPos());
+        this.mBorderLeft.setHeight(this.mRenderableObject.getXform().getHeight());
     }
 };
 
@@ -96,6 +164,9 @@ Resizeable.prototype.draw = function (camera)
     if (this.mBorderState) 
     {
         this.mBorderBottom.draw(camera);
+        this.mBorderTop.draw(camera);
+        this.mBorderRight.draw(camera);
+        this.mBorderLeft.draw(camera);
     }
 };
 
