@@ -23,16 +23,28 @@ WindowManager.prototype.add = function(window, front) {
 };
 
 WindowManager.prototype.remove = function(window) {
-    for (var i = 0; i < this.mList.length; i++) {
+    for (var i = this.mList.length - 1; i >= 0; i--) {
         if (window === this.mList[i]) {
             this.mList.splice(i, 1);
+            i = -1;
         }
     }
 };
 
-WindowManager.prototype.draw = function(camera) {
+WindowManager.prototype.pushToFront = function (window) {
     for (var i = this.mList.length - 1; i >= 0; i--) {
-        this.mList[i].draw(camera);
+        if (window === this.mList[i]) {
+            this.mList.splice(i, 1);
+            this.mList.unshift(window);
+            i = -1;
+        }
+    }
+}
+
+WindowManager.prototype.draw = function(camera, objects) {
+    for (var i = this.mList.length - 1; i >= 0; i--) {
+        this.mList[i].draw(camera, objects);
+        
     }
 };
 

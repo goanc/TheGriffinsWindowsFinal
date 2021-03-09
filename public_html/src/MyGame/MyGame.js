@@ -29,7 +29,8 @@ function MyGame() {
     this.kSpriteSheet = "assets/SpriteSheet.png";
     this.mCurrentLine = null;
     this.mP1 = null;
-    this.mWindows = [];
+    this.mWindows = null;
+    this.mDrawnObjects = [];
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -94,6 +95,8 @@ MyGame.prototype.initialize = function () {
 
     this.mDragGameObject = new Draggable(this.mPatrol.getHead(), this.mCamera);
     this.mDragGameObject.setDragArea(0, 0, 5, 5);
+    
+    this.mWindows = new WindowManager();
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -103,18 +106,12 @@ MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
     this.mCamera.setupViewProjection();
-    this.mMsg.draw(this.mCamera);
-    this.mDragTest.draw(this.mCamera);// only draw status in the main camera
-    this.mDragTest2.draw(this.mCamera);
-
-
-    this.mResizeTest.draw(this.mCamera);
-    this.mPatrol.draw(this.mCamera);
-    this.mDragGameObject.draw(this.mCamera);
-
-    for (var i = 0; i < this.mWindows.length; i++) {
-        this.mWindows[i].draw(this.mCamera);
+    for (var i = 0; i < this.mDrawnObjects.length; i++) {
+        this.mDrawnObjects[i].draw(this.mCamera);
     }
+
+    this.mWindows.draw(this.mCamera, this.mDrawnObjects);
+    
     for (var j = 0; j < this.mWindows.length; j++) {
         var cam = this.mWindows[j].getCamera();
         cam.setupViewProjection();
@@ -154,9 +151,9 @@ MyGame.prototype.update = function () {
                 );
         cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
         var window = new Window(box, this.mCamera, cam, 2, 1, false, false);
-        this.mWindows.push(window);
+        this.mWindows.add(window, true);
     }
-    for (var i = 0; i < this.mWindows.length; i++) {
-        this.mWindows[i].update();
-    }
+    this.mWindows.update();
+    
+    this.mDrawnObjects = [this.mDragTest, this.mDragTest2, this.mDragGameObject, this.mPatrol, this.mResizeTest];
 };

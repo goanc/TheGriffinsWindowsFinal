@@ -48,9 +48,13 @@ Window.prototype.setIsResize = function(bool) {
     };
 }
 
-Window.prototype.draw = function(camera) {
+Window.prototype.draw = function(camera, objects) {
     if (this.mVisible) {
         this.mRenderableObject.draw(camera);
+        this.mCamera.setupViewProjection();
+        for (var i = 0; objects.length; i++) {
+            objects[i].draw(this.mCamera);
+        }
     }
 }
 
