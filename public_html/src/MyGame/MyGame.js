@@ -150,7 +150,7 @@ MyGame.prototype.update = function () {
                 [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
                 );
         cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
-        var window = new Window(box, this.mCamera, cam, 2, 1, false, false);
+        var window = new Window(box, this.mCamera, cam, 2, false, false);
         this.mWindows.add(window, true);
     }
     this.mWindows.update();

@@ -4,18 +4,17 @@
  * An object that is directly tied to its own camera and viewport
  */
 
-function Window(renderableObject, mainCam, windowCam, offset, layer, drag, resize) {
+function Window(renderableObject, mainCam, windowCam, offset, drag, resize) {
     this.mRenderableObject = renderableObject;
     this.mMainCam = mainCam;
     this.mCamera = windowCam;
     this.mOffset = offset;
-    this.mLayer = layer;
     this.mIsDrag = drag; 
     this.mIsResize = resize;
     this.mVisible = true;
     this.mDraggable = null;
     this.mResizeable = null;
-}
+};
 
 gEngine.Core.inheritPrototype(Window, GameObject);
 
@@ -74,5 +73,5 @@ Window.prototype.update = function () {
     }
     if (this.mIsResize) {
         this.mResizeable.update();
-    }
-}
+    };
+};
