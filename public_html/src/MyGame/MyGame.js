@@ -57,8 +57,8 @@ MyGame.prototype.initialize = function () {
 
     this.mRenderableTest = new Renderable();
     this.mRenderableTest.setColor([1, 0, 0, 1]);
-    this.mRenderableTest.getXform().setPosition(30, 27.5);
-    this.mRenderableTest.getXform().setSize(10, 10);
+    this.mRenderableTest.getXform().setPosition(60, 27.5);
+    this.mRenderableTest.getXform().setSize(30, 30);
 
     this.mRenderableTest2 = new Renderable();
     this.mRenderableTest2.setColor([1, 1, 0, 1]);
@@ -66,7 +66,7 @@ MyGame.prototype.initialize = function () {
     this.mRenderableTest2.getXform().setSize(10, 10);
 
     this.mResizeTest = new Resizeable(this.mRenderableTest, this.mCamera);
-    this.mResizeTest.setResizeArea(0, -4, 10, 2);
+    this.mResizeTest.initialize();
 
 
     this.mMsg = new FontRenderable("Status Message");
