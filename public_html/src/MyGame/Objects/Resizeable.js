@@ -117,7 +117,6 @@ Resizeable.prototype.update = function ()
             this.resizingLeft = false;
         }
     }
-    console.log(this.resizingTop);
     if (this.resizingBottom === true)
     {
         this.mRenderableObject.getXform().incHeightBy(this.initMousePosY - this.mMouseY);
