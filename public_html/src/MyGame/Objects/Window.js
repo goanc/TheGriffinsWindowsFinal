@@ -4,9 +4,8 @@
  * An object that is directly tied to its own camera and viewport
  */
 
-function Window(renderableObject, mainCam, windowCam, offset, drag, resize) {
+function Window(renderableObject, windowCam, offset, drag, resize) {
     this.mRenderableObject = renderableObject;
-    this.mMainCam = mainCam;
     this.mCamera = windowCam;
     this.mOffset = offset;
     this.mIsDrag = drag; 
@@ -25,6 +24,7 @@ Window.prototype.initialize = function() {
     if (this.mIsResize) {
         this.mResizeable = new Resizeable(this.mRenderableObject);
     };
+    
 }
 
 Window.prototype.setIsDrag = function(bool) {
@@ -61,12 +61,11 @@ Window.prototype.getCamera = function() {
     return this.mCamera;
 }
 
-Window.prototype.update = function () {
-    var x = this.mRenderableObject.getXform().getXPos();
-    var y = this.mRenderableObject.getXform().getYPos();
-    var width =  this.mRenderableObject.getXform().getWidth();
-    var height =  this.mRenderableObject.getXform().getHeight();
-    //Sets viewport to position and size of renderable 
+Window.prototype.update = function (cam) {
+    var x = this.mRenderableObject.getXform().getXPos()*(cam.getViewport()[2]/cam.getWCWidth());
+    var y = this.mRenderableObject.getXform().getYPos()*(cam.getViewport()[3]/cam.getWCWidth());
+    var width = this.mRenderableObject.getXform().getWidth()*(cam.getViewport()[2]/cam.getWCWidth());
+    var height = this.mRenderableObject.getXform().getHeight()*(cam.getViewport()[3]/cam.getWCWidth());
     this.mCamera.setViewport([x, y, width, height]);
     if (this.mIsDrag) {
         this.mDraggable.update();

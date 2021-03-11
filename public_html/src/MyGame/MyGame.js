@@ -153,10 +153,10 @@ MyGame.prototype.update = function () {
                 [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
                 );
         cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
-        var window = new Window(box, this.mCamera, cam, 2, false, false);
+        var window = new Window(box, cam, 2, false, false);
         this.mWindows.add(window, true);
     }
-    this.mWindows.update();
+    this.mWindows.update(this.mCamera);
     
     this.mDrawnObjects = [this.mDragTest, this.mDragTest2, this.mDragGameObject, this.mPatrol, this.mResizeTest];
 };

@@ -48,8 +48,8 @@ WindowManager.prototype.draw = function(camera, objects) {
     }
 };
 
-WindowManager.prototype.update = function() {
+WindowManager.prototype.update = function(cam) {
     for (var i = this.mList.length - 1; i >= 0; i--) {
-        this.mList[i].update();
+        this.mList[i].update(cam);
     }
 }
