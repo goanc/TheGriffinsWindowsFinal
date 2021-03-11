@@ -63,9 +63,9 @@ Window.prototype.getCamera = function() {
 
 Window.prototype.update = function (cam) {
     var x = this.mRenderableObject.getXform().getXPos()*(cam.getViewport()[2]/cam.getWCWidth());
-    var y = this.mRenderableObject.getXform().getYPos()*(cam.getViewport()[3]/cam.getWCWidth());
+    var y = this.mRenderableObject.getXform().getYPos()*(cam.getViewport()[3]/cam.getWCHeight());
     var width = this.mRenderableObject.getXform().getWidth()*(cam.getViewport()[2]/cam.getWCWidth());
-    var height = this.mRenderableObject.getXform().getHeight()*(cam.getViewport()[3]/cam.getWCWidth());
+    var height = this.mRenderableObject.getXform().getHeight()*(cam.getViewport()[3]/cam.getWCHeight());
     this.mCamera.setViewport([x, y, width, height]);
     if (this.mIsDrag) {
         this.mDraggable.update();
