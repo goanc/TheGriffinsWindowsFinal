@@ -167,7 +167,7 @@ MyGame.prototype.update = function () {
         var window = new Window(box, cam, 2, 3, false, false);
         this.mWindows.add(window, true);
     }
-    this.mWindows.update();
-
-    this.mDrawnObjects = [this.mDragTest, this.mDragTest2, this.mDragGameObject, this.mPatrol, this.mResizeTest, this.mResizeAndDrag];
+    this.mWindows.update(this.mCamera);
+    
+    this.mDrawnObjects = [this.mDragTest, this.mDragTest2, this.mDragGameObject, this.mPatrol, this.mResizeTest];
 };
