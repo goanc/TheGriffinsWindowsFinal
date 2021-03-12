@@ -39,7 +39,7 @@ WindowManager.prototype.pushToFront = function (window) {
             i = -1;
         }
     }
-}
+};
 
 WindowManager.prototype.draw = function(camera, objects) {
     for (var i = this.mList.length - 1; i >= 0; i--) {
