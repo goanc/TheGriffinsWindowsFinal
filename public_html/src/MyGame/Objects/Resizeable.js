@@ -145,23 +145,20 @@ Resizeable.prototype.update = function ()
         this.mRenderableObject.getXform().incXPosBy((this.mMouseX - this.initMousePosX) / 2); 
     }
     
-    if (this.resizingBottom || this.resizingTop || this.resizingRight || this.resizingLeft)
-    {
-        this.initMousePosX = this.mMouseX;
-        this.initMousePosY = this.mMouseY;
-        
-        this.mBorderBottom.setBoxCenter(this.mRenderableObject.getXform().getXPos(), this.mRenderableObject.getXform().getYPos() - (this.mRenderableObject.getXform().getHeight() / 2) + 0.5);
-        this.mBorderBottom.setWidth(this.mRenderableObject.getXform().getWidth());
+    this.initMousePosX = this.mMouseX;
+    this.initMousePosY = this.mMouseY;
 
-        this.mBorderTop.setBoxCenter(this.mRenderableObject.getXform().getXPos(), this.mRenderableObject.getXform().getYPos() + (this.mRenderableObject.getXform().getHeight() / 2) - 0.5);
-        this.mBorderTop.setWidth(this.mRenderableObject.getXform().getWidth());
+    this.mBorderBottom.setBoxCenter(this.mRenderableObject.getXform().getXPos(), this.mRenderableObject.getXform().getYPos() - (this.mRenderableObject.getXform().getHeight() / 2) + 0.5);
+    this.mBorderBottom.setWidth(this.mRenderableObject.getXform().getWidth());
 
-        this.mBorderRight.setBoxCenter(this.mRenderableObject.getXform().getXPos() + (this.mRenderableObject.getXform().getWidth() / 2) - 0.5, this.mRenderableObject.getXform().getYPos());
-        this.mBorderRight.setHeight(this.mRenderableObject.getXform().getHeight());
+    this.mBorderTop.setBoxCenter(this.mRenderableObject.getXform().getXPos(), this.mRenderableObject.getXform().getYPos() + (this.mRenderableObject.getXform().getHeight() / 2) - 0.5);
+    this.mBorderTop.setWidth(this.mRenderableObject.getXform().getWidth());
 
-        this.mBorderLeft.setBoxCenter(this.mRenderableObject.getXform().getXPos() - (this.mRenderableObject.getXform().getWidth() / 2) + 0.5, this.mRenderableObject.getXform().getYPos());
-        this.mBorderLeft.setHeight(this.mRenderableObject.getXform().getHeight());
-    }
+    this.mBorderRight.setBoxCenter(this.mRenderableObject.getXform().getXPos() + (this.mRenderableObject.getXform().getWidth() / 2) - 0.5, this.mRenderableObject.getXform().getYPos());
+    this.mBorderRight.setHeight(this.mRenderableObject.getXform().getHeight());
+
+    this.mBorderLeft.setBoxCenter(this.mRenderableObject.getXform().getXPos() - (this.mRenderableObject.getXform().getWidth() / 2) + 0.5, this.mRenderableObject.getXform().getYPos());
+    this.mBorderLeft.setHeight(this.mRenderableObject.getXform().getHeight());
 };
 
 Resizeable.prototype.draw = function (camera) 
