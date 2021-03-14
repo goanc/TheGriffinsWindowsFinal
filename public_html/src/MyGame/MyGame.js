@@ -165,13 +165,21 @@ MyGame.prototype.update = function () {
                 );
         cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
         var window = new Window(box, cam, 1, //Left offset
-        1, //Right offset
-        1.2, //Bottom offset
-        1.6, //Top offset
-        false, false);
+                1, //Right offset
+                1.2, //Bottom offset
+                1.6, //Top offset
+                false, false);
         this.mWindows.add(window, true);
     }
     this.mWindows.update(this.mCamera);
-    
+
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
+        var delta = 0.5;
+        var camX = this.mCamera.getWCCenter()[0];
+        var camY = this.mCamera.getWCCenter()[1];
+        this.mCamera.setWCCenter(camX, camY + delta);
+    }
+    this.mCamera.update();
+
     this.mDrawnObjects = [this.mDragTest, this.mDragTest2, this.mDragGameObject, this.mPatrol, this.mResizeTest];
 };
