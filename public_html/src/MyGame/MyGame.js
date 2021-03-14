@@ -173,13 +173,6 @@ MyGame.prototype.update = function () {
     }
     this.mWindows.update(this.mCamera);
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
-        var delta = 0.5;
-        var camX = this.mCamera.getWCCenter()[0];
-        var camY = this.mCamera.getWCCenter()[1];
-        this.mCamera.setWCCenter(camX, camY + delta);
-    }
-    this.mCamera.update();
 
     this.mDrawnObjects = [this.mDragTest, this.mDragTest2, this.mDragGameObject, this.mPatrol, this.mResizeTest];
 };
