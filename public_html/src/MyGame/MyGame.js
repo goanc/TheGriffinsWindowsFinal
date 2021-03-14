@@ -67,8 +67,9 @@ MyGame.prototype.initialize = function () {
     this.mRenderableTest2.getXform().setPosition(40, 40);
     this.mRenderableTest2.getXform().setSize(10, 10);
 
-    this.mResizeTest = new Resizeable(this.mRenderableTest, this.mCamera);
+    this.mResizeTest = new Resizeable(this.mRenderableTest2, this.mCamera);
     this.mResizeTest.initialize();
+    //this.mResizeTest.disableResizeAreaBorder();
 
     this.mMsg = new FontRenderable("Status Message");
     this.mMsg.setColor([0, 0, 0, 1]);
@@ -157,6 +158,8 @@ MyGame.prototype.update = function () {
 
     this.mResizeTest.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
     this.mResizeTest.update();
+
+    this.mDragTest2.setDragArea(0, (this.mDragTest2.getXform().getHeight() / 2) - 2, this.mDragTest2.getXform().getWidth() - 2, 2);
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
         var box = new TextureRenderable(this.kWindowSprite);
