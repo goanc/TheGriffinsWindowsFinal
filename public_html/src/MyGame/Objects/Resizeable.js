@@ -126,23 +126,23 @@ Resizeable.prototype.update = function ()
     }
     if (this.resizingBottom === true)
     {
-        this.mRenderableObject.getXform().incHeightBy(this.initMousePosY - this.mMouseY);
-        this.mRenderableObject.getXform().incYPosBy((this.mMouseY - this.initMousePosY) / 2);     
+        this.mRenderableObject.getXform().incHeightBy((this.initMousePosY - this.mMouseY) / 2);
+        this.mRenderableObject.getXform().incYPosBy((this.mMouseY - this.initMousePosY) / 4);     
     }
     if (this.resizingTop === true)
     {
-        this.mRenderableObject.getXform().incHeightBy(this.mMouseY - this.initMousePosY);
-        this.mRenderableObject.getXform().incYPosBy((this.mMouseY - this.initMousePosY) / 2);  
+        this.mRenderableObject.getXform().incHeightBy((this.mMouseY - this.initMousePosY) / 2);
+        this.mRenderableObject.getXform().incYPosBy((this.mMouseY - this.initMousePosY) / 4);  
     }
     if (this.resizingRight === true)
     {
-        this.mRenderableObject.getXform().incWidthBy(this.mMouseX - this.initMousePosX);
-        this.mRenderableObject.getXform().incXPosBy((this.mMouseX - this.initMousePosX) / 2);   
+        this.mRenderableObject.getXform().incWidthBy((this.mMouseX - this.initMousePosX) / 2);
+        this.mRenderableObject.getXform().incXPosBy((this.mMouseX - this.initMousePosX) / 4);   
     }
     if (this.resizingLeft === true)
     {
-        this.mRenderableObject.getXform().incWidthBy(this.initMousePosX - this.mMouseX);
-        this.mRenderableObject.getXform().incXPosBy((this.mMouseX - this.initMousePosX) / 2); 
+        this.mRenderableObject.getXform().incWidthBy((this.initMousePosX - this.mMouseX) / 2);
+        this.mRenderableObject.getXform().incXPosBy((this.mMouseX - this.initMousePosX) / 4); 
     }
     
     this.initMousePosX = this.mMouseX;
