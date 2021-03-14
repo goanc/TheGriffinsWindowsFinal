@@ -135,6 +135,10 @@ MyGame.prototype.draw = function () {
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.prototype.update = function () {
+    var delta = 2;
+    var camX = this.mCamera.getWCCenter()[0];
+    var camY = this.mCamera.getWCCenter()[1];
+    
     this.mDragTest.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
     this.mDragTest.update();
 
@@ -157,7 +161,7 @@ MyGame.prototype.update = function () {
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
         var box = new TextureRenderable(this.kWindowSprite);
         box.setColor([1, 1, 1, 0]);
-        box.getXform().setPosition(33, 20);
+        box.getXform().setPosition(camX, camY-20);
         box.getXform().setSize(20, 15);
         var cam = new Camera(vec2.fromValues(30, 27.5), // position of the camera
                 20, // width of camera
@@ -172,18 +176,22 @@ MyGame.prototype.update = function () {
         this.mWindows.add(window, true);
     }
     
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W)) {
-        
-    };
-    this.mWindows.update(this.mCamera);
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
-        var delta = 0.5;
-        var camX = this.mCamera.getWCCenter()[0];
-        var camY = this.mCamera.getWCCenter()[1];
-        this.mCamera.setWCCenter(camX, camY + delta);
-    }
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
+        this.mCamera.setWCCenter(camX, camY += delta);
+    };
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
+        this.mCamera.setWCCenter(camX -= delta, camY);
+    };
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
+        this.mCamera.setWCCenter(camX, camY -= delta);
+    };
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+        this.mCamera.setWCCenter(camX += delta, camY);
+    };
     this.mCamera.update();
 
     this.mDrawnObjects = [this.mDragTest, this.mDragTest2, this.mDragGameObject, this.mPatrol, this.mResizeTest];
+    
+    this.mWindows.update(this.mCamera);
 };
