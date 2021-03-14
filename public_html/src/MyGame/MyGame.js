@@ -21,6 +21,8 @@ function MyGame() {
     this.mDragTest2 = null;
     this.mDragGameObject = null;
     this.mResizeTest = null;
+    this.mResizeAndDrag = null;
+
     this.mRenderableTest = null;
     this.mRenderableTest2 = null;
     this.mSpriteAnimate = null;
@@ -68,7 +70,6 @@ MyGame.prototype.initialize = function () {
     this.mResizeTest = new Resizeable(this.mRenderableTest, this.mCamera);
     this.mResizeTest.initialize();
 
-
     this.mMsg = new FontRenderable("Status Message");
     this.mMsg.setColor([0, 0, 0, 1]);
     this.mMsg.getXform().setPosition(-19, -8);
@@ -89,8 +90,14 @@ MyGame.prototype.initialize = function () {
     this.mDragTest = new Draggable(this.mSpriteAnimate, this.mCamera);
     this.mDragTest.setDragArea(0, 4, 10, 2);
 
+
+
     this.mDragTest2 = new Draggable(this.mRenderableTest2, this.mCamera);
     this.mDragTest2.setDragArea(0, 4, 10, 2);
+
+    this.mResizeAndDrag = new Resizeable(this.mDragTest2, this.mCamera);
+    this.mResizeAndDrag.initialize();
+    this.mResizeAndDrag.enableResizeAreaBorder();
 
     this.mPatrol = new Patrol(10, 40, true);
     this.mPatrol.initialize();
@@ -98,8 +105,9 @@ MyGame.prototype.initialize = function () {
 
     this.mDragGameObject = new Draggable(this.mPatrol.getHead(), this.mCamera);
     this.mDragGameObject.setDragArea(0, 0, 5, 5);
-    
+    //debugger;
     this.mWindows = new WindowManager();
+    //debugger;
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -114,7 +122,7 @@ MyGame.prototype.draw = function () {
     }
 
     this.mWindows.draw(this.mCamera, this.mDrawnObjects);
-    
+
     for (var j = 0; j < this.mWindows.length; j++) {
         var cam = this.mWindows[j].getCamera();
         cam.setupViewProjection();
@@ -136,6 +144,9 @@ MyGame.prototype.update = function () {
     this.mDragGameObject.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
     this.mDragGameObject.update();
 
+    this.mResizeAndDrag.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
+    this.mResizeAndDrag.update();
+
     this.mSpriteAnimate.updateAnimation();
     this.mPatrol.update();
 
@@ -154,13 +165,21 @@ MyGame.prototype.update = function () {
                 );
         cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
         var window = new Window(box, cam, 1, //Left offset
-        1, //Right offset
-        1.2, //Bottom offset
-        1.6, //Top offset
-        false, false);
+                1, //Right offset
+                1.2, //Bottom offset
+                1.6, //Top offset
+                false, false);
         this.mWindows.add(window, true);
     }
     this.mWindows.update(this.mCamera);
-    
+
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Up)) {
+        var delta = 0.5;
+        var camX = this.mCamera.getWCCenter()[0];
+        var camY = this.mCamera.getWCCenter()[1];
+        this.mCamera.setWCCenter(camX, camY + delta);
+    }
+    this.mCamera.update();
+
     this.mDrawnObjects = [this.mDragTest, this.mDragTest2, this.mDragGameObject, this.mPatrol, this.mResizeTest];
 };

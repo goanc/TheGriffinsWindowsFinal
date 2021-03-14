@@ -108,3 +108,7 @@ Draggable.prototype.diableDragAreaBorder = function () {
     this.mBorderState = false;
 };
 
+Draggable.prototype.getXform = function () {
+    return this.mRenderableObject.getXform();
+};
+
