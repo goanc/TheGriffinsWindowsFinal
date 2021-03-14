@@ -30,10 +30,14 @@
  */
 "use strict";
 
-function Window(renderableObject, windowCam, xoffsetleft, xoffsetright, yoffsetbottom, yoffsettop, drag, resize) {
+function Window(renderableObject, windowCam, worldCam, xoffsetleft, xoffsetright, yoffsetbottom, yoffsettop, drag, resize) {
     this.mRenderableObject = renderableObject;
     this.mInitXform = this.mRenderableObject.getXform();
     this.mCamera = windowCam;
+    this.mInitCamX = worldCam.getWCCenter()[0];
+    this.mInitCamY = worldCam.getWCCenter()[1];
+    this.mLastCamX = worldCam.getWCCenter()[0];
+    this.mLastCamY = worldCam.getWCCenter()[1];
     this.mOffsetLeft = xoffsetleft;
     this.mOffsetRight = xoffsetright;
     this.mOffsetBottom = yoffsetbottom;
@@ -105,6 +109,10 @@ Window.prototype.draw = function(cam, objects) {
 };
 
 Window.prototype.update = function (cam) {
+    this.mRenderableObject.getXform().setPosition(this.mRenderableObject.getXform().getXPos() + (cam.getWCCenter()[0]-this.mLastCamX),
+        this.mRenderableObject.getXform().getYPos()+ (cam.getWCCenter()[1]-this.mLastCamY));
+    this.mLastCamX = cam.getWCCenter()[0];
+    this.mLastCamY = cam.getWCCenter()[1];
     //Set offsets with adherence to original offset
     this.mOffsetLeft = this.mInitOffsetLeft * (1+(this.mInitXform.getWidth() - this.mRenderableObject.getXform().getWidth()));
     this.mOffsetRight = this.mInitOffsetRight * (1+(this.mInitXform.getWidth() - this.mRenderableObject.getXform().getWidth()));
