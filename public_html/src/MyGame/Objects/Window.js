@@ -1,7 +1,18 @@
 /* Class: Window.js
  * Author: The Griffins
  * 
- * An object that is directly tied to its own camera and viewport
+ * A GameObject that ties a renderable and camera together to from a window that can be optionally dragged and resized
+ * 
+ * FUNCTIONS:
+ * Window(renderableObject, windowCam, xoffsetleft, xoffsetright, yoffsetbottom, yoffsettop, drag, resize):
+ *      Defines a renderable with an attached camera, along with the camera's numerical left, right, bottom, and top offsets in relation to the renderable.
+ *      Drag and resize are enabled if set to true, otherwise are disabled.
+ * initialize(): Initializes the draggable and resizable versions of renderable if enabled.
+ * setISDrag(bool): Defines if the window is draggable or not, depending on whether the input is true or false.
+ * setISResize(bool): Defines if the window is resizeable or not, depending on whether the input is true or false.
+ * getCamera(): Returns the window's camera.
+ * draw(cam, objects): Draws the window on the inputted camera, and then draws the objects within the window on the inputted list of objects.
+ * update(cam): Draws the window object. Its dimensions are specified by the inputted world camera.
  */
 
 function Window(renderableObject, windowCam, xoffsetleft, xoffsetright, yoffsetbottom, yoffsettop, drag, resize) {
@@ -55,18 +66,18 @@ Window.prototype.setIsResize = function(bool) {
     };
 };
 
-Window.prototype.draw = function(camera, objects) {
+Window.prototype.getCamera = function() {
+    return this.mCamera;
+};
+
+Window.prototype.draw = function(cam, objects) {
     if (this.mVisible) {
-        this.mRenderableObject.draw(camera);
+        this.mRenderableObject.draw(cam);
         this.mCamera.setupViewProjection();
         for (var i = 0; i < objects.length; i++) {
             objects[i].draw(this.mCamera);
         }
     }
-};
-
-Window.prototype.getCamera = function() {
-    return this.mCamera;
 };
 
 Window.prototype.update = function (cam) {
