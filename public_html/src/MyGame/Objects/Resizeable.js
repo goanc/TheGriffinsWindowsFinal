@@ -1,9 +1,20 @@
-/* Resizeable.js
+/* Class: Resizeable.js
  * Author: The Griffins
+ * 
+ * A GameObject that allows a renderable to be resized by dragging the edges with the mouse
+ * 
+ * FUNCTIONS:
+ * Resizeable(renderableObject): Defines a Resizeable, the renderableObject is the object Resizeable will be applied to. Borders of resize area are on by default.
+ * initialize(): Initializes the Resizable.
+ * draw(camera): Draws the borders to the camera
+ * update(): Detects clicks and resizes renderable.
+ * setMousePosition(x, y): Used to pass the mouse position to this object.
+ * enableResizeAreaBorder(): Shows resize border
+ * disableResizeAreaBorder(): Hides resize border
  */
 "use strict";
 
-function Resizeable(renderableObject, camera) 
+function Resizeable(renderableObject) 
 {
     this.mRenderableObject = renderableObject;
     this.mResizeAreaXOffset = null;
@@ -32,8 +43,6 @@ function Resizeable(renderableObject, camera)
     this.mBorderRight = new Box(0, 0, 0, 0);
     this.mBorderLeft = new Box(0, 0, 0, 0);
     this.mBorderState = true;
-
-    this.mCamera = camera;
 };
 
 Resizeable.prototype.initialize = function () 
