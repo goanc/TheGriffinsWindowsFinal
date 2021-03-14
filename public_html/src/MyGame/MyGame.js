@@ -157,14 +157,18 @@ MyGame.prototype.update = function () {
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
         var box = new TextureRenderable(this.kWindowSprite);
         box.setColor([1, 1, 1, 0]);
-        box.getXform().setPosition(40, 57.5);
+        box.getXform().setPosition(33, 20);
         box.getXform().setSize(20, 15);
         var cam = new Camera(vec2.fromValues(30, 27.5), // position of the camera
                 20, // width of camera
                 [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
                 );
         cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
-        var window = new Window(box, cam, 2, 3, false, false);
+        var window = new Window(box, cam, 1, //Left offset
+        1, //Right offset
+        1.2, //Bottom offset
+        1.6, //Top offset
+        false, false);
         this.mWindows.add(window, true);
     }
     this.mWindows.update(this.mCamera);

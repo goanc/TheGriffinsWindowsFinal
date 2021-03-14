@@ -5,7 +5,7 @@
             <url>public_html/src/MyGame/MyGame.js</url>
             <bookmark id="1">
                 <name/>
-                <line>120</line>
+                <line>102</line>
                 <key/>
             </bookmark>
         </file>
@@ -16,10 +16,12 @@
         <group name="AllBookProjects"/>
         <group name="Apress-2d-game-engine"/>
         <group>
-            <file>file:/Users/stephenswetonic/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/MyGame/Objects/Resizeable.js</file>
-            <file>file:/Users/stephenswetonic/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/MyGame/Objects/Draggable.js</file>
-            <file>file:/Users/stephenswetonic/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/MyGame/MyGame.js</file>
-            <file>file:/Users/stephenswetonic/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/MyGame/Objects/Window.js</file>
+            <file>file:/C:/Users/westo/OneDrive/Documents/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/MyGame/Objects/Window.js</file>
+            <file>file:/C:/Users/westo/OneDrive/Documents/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/MyGame/MyGame.js</file>
+            <file>file:/C:/Users/westo/OneDrive/Documents/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/MyGame/Objects/Draggable.js</file>
+            <file>file:/C:/Users/westo/OneDrive/Documents/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/MyGame/Objects/WindowManager.js</file>
+            <file>file:/C:/Users/westo/OneDrive/Documents/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/MyGame/Objects/Resizeable.js</file>
+            <file>file:/C:/Users/westo/OneDrive/Documents/NetBeansProjects/TheGriffinsWindowsFinal/public_html/src/Engine/Cameras/Camera.js</file>
         </group>
     </open-files>
 </project-private>
