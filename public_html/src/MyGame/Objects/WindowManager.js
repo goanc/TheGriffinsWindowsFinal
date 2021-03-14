@@ -19,6 +19,7 @@
  * update(cam): Updates all windows according to the specs of the inputted camera.
  *      (cam): The world camera that all the windows' dimensions will compare to.
  */
+"use strict";
 
 function WindowManager() {
     this.mList = [];

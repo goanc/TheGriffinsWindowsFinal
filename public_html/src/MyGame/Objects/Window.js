@@ -28,6 +28,7 @@
  * update(cam): Draws the window object. Its dimensions are specified by the inputted world camera.
  *      (cam): The world camera that the window's dimensions will compare to.
  */
+"use strict";
 
 function Window(renderableObject, windowCam, xoffsetleft, xoffsetright, yoffsetbottom, yoffsettop, drag, resize) {
     this.mRenderableObject = renderableObject;
