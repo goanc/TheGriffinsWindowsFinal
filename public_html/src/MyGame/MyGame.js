@@ -164,7 +164,7 @@ MyGame.prototype.update = function () {
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
         var box = new TextureRenderable(this.kWindowSprite);
         box.setColor([1, 1, 1, 0]);
-        box.getXform().setPosition(camX, camY-20);
+        box.getXform().setPosition(camX + ((Math.random() * 60)-30), camY + ((Math.random() * 60)-30));
         box.getXform().setSize(20, 15);
         var cam = new Camera(vec2.fromValues(30, 27.5), // position of the camera
                 20, // width of camera
