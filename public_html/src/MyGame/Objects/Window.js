@@ -4,9 +4,10 @@
  * A GameObject that ties a renderable and camera together to form a window object that can be optionally dragged and resized
  * 
  * FUNCTIONS:
- * Window(renderableObject, windowCam, xoffsetleft, xoffsetright, yoffsetbottom, yoffsettop, drag, resize):Defines a renderable with an attached camera
+ * Window(renderableObject, windowCam, worldCam, xoffsetleft, xoffsetright, yoffsetbottom, yoffsettop, drag, resize):Defines a renderable with an attached camera
  *      (renderableObject): A renderable object that will be associated with the camera.
  *      (windowCam): The camera for the window. Dimensions will not stay the same.
+ *      (worldCam): The world camera that the window will be drawn upon.
  *      (xoffsetleft): The camera's WC offset from the left side of renderableObject.
  *      (xoffsetright): The camera's WC offset from the right side of renderableObject.
  *      (yoffsetbottom): The camera's WC offset from the bottom side of renderableObject.
