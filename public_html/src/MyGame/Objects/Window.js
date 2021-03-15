@@ -82,6 +82,7 @@ Window.prototype.initialize = function () {
     if (this.mIsResize) {
         this.mResizeable = new Resizeable(this.mRenderableObject);
         this.mResizeable.initialize();
+        this.mResizeable.disableTopBar();
     }
     ;
 
@@ -166,7 +167,7 @@ Window.prototype.update = function (cam) {
         var mWidth = this.mDragArea.getXform().getWidth();
         var mHeight = this.mDragArea.getXform().getHeight();
 
-        var dragArea = new BoundingBox([mX, mY + (this.mInitXform.getHeight() / 2) - 2], this.mInitXform.getWidth() - 2, mHeight);
+        var dragArea = new BoundingBox([mX, mY + (this.mInitXform.getHeight() / 2)], this.mInitXform.getWidth() - 2, mHeight);
 
 
         if (gEngine.Input.isButtonPressed(0)) {
