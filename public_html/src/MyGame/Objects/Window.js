@@ -4,9 +4,10 @@
  * A GameObject that ties a renderable and camera together to form a window object that can be optionally dragged and resized
  * 
  * FUNCTIONS:
- * Window(renderableObject, windowCam, xoffsetleft, xoffsetright, yoffsetbottom, yoffsettop, drag, resize):Defines a renderable with an attached camera
+ * Window(renderableObject, windowCam, worldCam, xoffsetleft, xoffsetright, yoffsetbottom, yoffsettop, drag, resize):Defines a renderable with an attached camera
  *      (renderableObject): A renderable object that will be associated with the camera.
  *      (windowCam): The camera for the window. Dimensions will not stay the same.
+ *      (worldCam): The world camera that the window will be drawn upon.
  *      (xoffsetleft): The camera's WC offset from the left side of renderableObject.
  *      (xoffsetright): The camera's WC offset from the right side of renderableObject.
  *      (yoffsetbottom): The camera's WC offset from the bottom side of renderableObject.
@@ -100,15 +101,18 @@ Window.prototype.getKey = function() {
     return this.mKey;
 }
 
-Window.prototype.draw = function(cam, objects) {
+Window.prototype.drawRenderable = function(cam) {
     if (this.mVisible) {
         this.mRenderableObject.draw(cam);
+    }
+};
+
+Window.prototype.drawCamera = function(cam, objects){
         this.mCamera.setupViewProjection();
         for (var i = 0; i < objects.length; i++) {
             objects[i].draw(this.mCamera);
         }
-    }
-};
+}
 
 Window.prototype.update = function (cam) {
     this.mRenderableObject.getXform().setPosition(this.mRenderableObject.getXform().getXPos() + (cam.getWCCenter()[0]-this.mLastCamX),

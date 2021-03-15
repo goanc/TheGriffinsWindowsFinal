@@ -67,8 +67,9 @@ MyGame.prototype.initialize = function () {
     this.mRenderableTest2.getXform().setPosition(40, 40);
     this.mRenderableTest2.getXform().setSize(10, 10);
 
-    this.mResizeTest = new Resizeable(this.mRenderableTest, this.mCamera);
+    this.mResizeTest = new Resizeable(this.mRenderableTest2, this.mCamera);
     this.mResizeTest.initialize();
+    //this.mResizeTest.disableResizeAreaBorder();
 
     this.mMsg = new FontRenderable("Status Message");
     this.mMsg.setColor([0, 0, 0, 1]);
@@ -122,19 +123,15 @@ MyGame.prototype.draw = function () {
     }
 
     this.mWindows.draw(this.mCamera, this.mDrawnObjects);
-
-    for (var j = 0; j < this.mWindows.length; j++) {
-        var cam = this.mWindows[j].getCamera();
-        cam.setupViewProjection();
-        this.mDragTest.draw(cam);
-        this.mResizeTest.draw(cam);
-    }
-
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.prototype.update = function () {
+    var delta = 2;
+    var camX = this.mCamera.getWCCenter()[0];
+    var camY = this.mCamera.getWCCenter()[1];
+    
     this.mDragTest.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
     this.mDragTest.update();
 
@@ -154,10 +151,12 @@ MyGame.prototype.update = function () {
     this.mResizeTest.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
     this.mResizeTest.update();
 
+    this.mDragTest2.setDragArea(0, (this.mDragTest2.getXform().getHeight() / 2) - 2, this.mDragTest2.getXform().getWidth() - 2, 2);
+
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
         var box = new TextureRenderable(this.kWindowSprite);
         box.setColor([1, 1, 1, 0]);
-        box.getXform().setPosition(33, 20);
+        box.getXform().setPosition(camX + ((Math.random() * 80)-40), camY + ((Math.random() * 60)-30));
         box.getXform().setSize(20, 15);
         var cam = new Camera(vec2.fromValues(30, 27.5), // position of the camera
                 20, // width of camera
@@ -172,11 +171,22 @@ MyGame.prototype.update = function () {
         this.mWindows.add(window, true);
     }
     
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W)) {
-        
-    };
-    this.mWindows.update(this.mCamera);
 
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
+        this.mCamera.setWCCenter(camX, camY += delta);
+    };
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
+        this.mCamera.setWCCenter(camX -= delta, camY);
+    };
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
+        this.mCamera.setWCCenter(camX, camY -= delta);
+    };
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+        this.mCamera.setWCCenter(camX += delta, camY);
+    };
+    this.mCamera.update();
 
     this.mDrawnObjects = [this.mDragTest, this.mDragTest2, this.mDragGameObject, this.mPatrol, this.mResizeTest];
+    
+    this.mWindows.update(this.mCamera);
 };
