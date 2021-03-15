@@ -43,6 +43,8 @@ function Resizeable(renderableObject)
     this.mBorderRight = new Box(0, 0, 0, 0);
     this.mBorderLeft = new Box(0, 0, 0, 0);
     this.mBorderState = true;
+    
+    this.mEnableTopBar = true;
 };
 
 Resizeable.prototype.initialize = function () 
@@ -129,7 +131,7 @@ Resizeable.prototype.update = function ()
         this.mRenderableObject.getXform().incHeightBy((this.initMousePosY - this.mMouseY) / 1);
         this.mRenderableObject.getXform().incYPosBy((this.mMouseY - this.initMousePosY) / 2);     
     }
-    if (this.resizingTop === true)
+    if (this.resizingTop === true && this.mEnableTopBar === true)
     {
         this.mRenderableObject.getXform().incHeightBy((this.mMouseY - this.initMousePosY) / 1);
         this.mRenderableObject.getXform().incYPosBy((this.mMouseY - this.initMousePosY) / 2);  
@@ -187,4 +189,9 @@ Resizeable.prototype.enableResizeAreaBorder = function ()
 Resizeable.prototype.disableResizeAreaBorder = function () 
 {
     this.mBorderState = false;
+};
+
+Resizeable.prototype.disableTopBar = function () 
+{
+    this.mEnableTopBar = false;
 };

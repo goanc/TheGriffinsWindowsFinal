@@ -86,19 +86,18 @@ Window.prototype.initialize = function () {
     if (this.mIsResize) {
         this.mResizeable = new Resizeable(this.mRenderableObject);
         this.mResizeable.initialize();
+        this.mResizeable.disableTopBar();
     }
     ;
 
 };
 
-Window.prototype.setDragArea = function (xOffset, yOffset, width, height) {
+Window.prototype.setDragArea = function (width, height) {
     if (this.mIsDrag) {
-        this.mDragAreaXOffset = xOffset;
-        this.mDragAreaYOffset = yOffset;
         this.mDragAreaWidth = width;
         this.mDragAreaHeight = height;
 
-        this.mDragArea.getXform().setPosition(this.mRenderableObject.getXform().getXPos() + xOffset, this.mRenderableObject.getXform().getYPos() + yOffset);
+        this.mDragArea.getXform().setPosition(this.mRenderableObject.getXform().getXPos(), this.mRenderableObject.getXform().getYPos());
         this.mDragArea.getXform().setWidth(width);
         this.mDragArea.getXform().setHeight(height);
     }
