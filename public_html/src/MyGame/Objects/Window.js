@@ -87,14 +87,12 @@ Window.prototype.initialize = function () {
 
 };
 
-Window.prototype.setDragArea = function (xOffset, yOffset, width, height) {
+Window.prototype.setDragArea = function (width, height) {
     if (this.mIsDrag) {
-        this.mDragAreaXOffset = xOffset;
-        this.mDragAreaYOffset = yOffset;
         this.mDragAreaWidth = width;
         this.mDragAreaHeight = height;
 
-        this.mDragArea.getXform().setPosition(this.mRenderableObject.getXform().getXPos() + xOffset, this.mRenderableObject.getXform().getYPos() + yOffset);
+        this.mDragArea.getXform().setPosition(this.mRenderableObject.getXform().getXPos(), this.mRenderableObject.getXform().getYPos());
         this.mDragArea.getXform().setWidth(width);
         this.mDragArea.getXform().setHeight(height);
     }
@@ -168,7 +166,7 @@ Window.prototype.update = function (cam) {
         var mWidth = this.mDragArea.getXform().getWidth();
         var mHeight = this.mDragArea.getXform().getHeight();
 
-        var dragArea = new BoundingBox([mX, mY + (this.mInitXform.getHeight() / 2)], this.mInitXform.getWidth() - 2, mHeight);
+        var dragArea = new BoundingBox([mX, mY + (this.mInitXform.getHeight() / 2) - 2], this.mInitXform.getWidth() - 2, mHeight);
 
 
         if (gEngine.Input.isButtonPressed(0)) {
