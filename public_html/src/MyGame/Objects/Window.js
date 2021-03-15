@@ -99,15 +99,18 @@ Window.prototype.getKey = function() {
     return this.mKey;
 }
 
-Window.prototype.draw = function(cam, objects) {
+Window.prototype.drawRenderable = function(cam) {
     if (this.mVisible) {
         this.mRenderableObject.draw(cam);
+    }
+};
+
+Window.prototype.drawCamera = function(cam, objects){
         this.mCamera.setupViewProjection();
         for (var i = 0; i < objects.length; i++) {
             objects[i].draw(this.mCamera);
         }
-    }
-};
+}
 
 Window.prototype.update = function (cam) {
     this.mRenderableObject.getXform().setPosition(this.mRenderableObject.getXform().getXPos() + (cam.getWCCenter()[0]-this.mLastCamX),
