@@ -177,8 +177,8 @@ MyGame1.prototype.update = function () {
         box.setColor([1, 1, 1, 0]);
         box.getXform().setPosition(camX + ((Math.random() * 80) - 40), camY + ((Math.random() * 60) - 30));
         box.getXform().setSize(20, 15);
-        var cam = new Camera(vec2.fromValues(30, 27.5), // position of the camera
-                20, // width of camera
+        var cam = new Camera(vec2.fromValues(camX + ((Math.random() * 80) - 40), camY + ((Math.random() * 60) - 30)), // position of the camera
+                120, // width of camera
                 [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
                 );
         cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
@@ -187,7 +187,6 @@ MyGame1.prototype.update = function () {
                 1.1, //Bottom offset
                 1.8, //Top offset
                 false, false);
-        //console.log(window);
         this.mWindows.add(window, true);
 
     }
