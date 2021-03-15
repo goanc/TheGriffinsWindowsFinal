@@ -14,7 +14,8 @@
  *      (yoffsettop): The camera's WC offset from the top side of renderableObject.
  *      (drag): A boolean that allows the window to be draggable if set to true.
  *      (resize): A boolean that allows the window to be resizeable if set to true.
- * initialize(): Initializes the draggable and resizable versions of renderable if enabled.
+ * initialize(): Initializes the window for dragging.
+ * setDragArea(xOffset, yOffset, width, height): Defines an area for dragging.
  * setISDrag(bool): Defines if the window is draggable or not, depending on whether the input is true or false.
  *      (bool): A boolean that allows the window to be draggable if set to true.
  * setISResize(bool): Defines if the window is resizeable or not, depending on whether the input is true or false.
@@ -25,6 +26,9 @@
  * getKey(): Returns the window's numerical key.
  * drawWindow(cam): Draws the window's renderable.
  *      (cam): The world camera that this window will be displayed on.
+ * setMousePosition(x, y): Sets the mouse position member variables
+ *      (x): mouse x position
+ *      (y): mouse y position
  * drawCamera(cam, objects): Draws the window's camera.
  *      (cam): The world camera that this window will be displayed on.
  *      (objects): An array of objects to be displayed within the window's camera.
