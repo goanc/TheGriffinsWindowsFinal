@@ -168,7 +168,7 @@ MyGame1.prototype.update = function () {
                 0.9, //Right offset
                 1.1, //Bottom offset
                 1.8, //Top offset
-                true, false);
+                true, true);
         window.initialize();
         window.setDragArea(0, 7, 20, 2);
         this.mWindows.add(window, true);
