@@ -64,7 +64,6 @@ WindowManager.prototype.pushToFront = function (window) {
 WindowManager.prototype.draw = function(cam, objects) {
     for (var i = this.mList.length - 1; i >= 0; i--) {
         this.mList[i].draw(cam, objects);
-        
     }
 };
 
