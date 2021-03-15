@@ -213,7 +213,8 @@ Window.prototype.update = function (cam) {
     //Update position
     this.mRenderableObject.getXform().setPosition(this.mRenderableObject.getXform().getXPos() + (cam.getWCCenter()[0] - this.mLastCamX),
             this.mRenderableObject.getXform().getYPos() + (cam.getWCCenter()[1] - this.mLastCamY));
-    //Update size
+    
+    //Update size to world camera (INCOMPLETE FEATURE)
     /*if (cam.getWCWidth != this.mLastCamWidth) {
      if (cam.getWCHeight != this.mLastCamHeight) {
      this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth() + (cam.getWCWidth() - this.mLastCamWidth) / 2,
@@ -227,6 +228,7 @@ Window.prototype.update = function (cam) {
      this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth(),
      this.mRenderableObject.getXform().getHeight() + (cam.getWCHeight()-this.mLastCamHeight)/2);
      };*/
+    
     if (this.mRenderableObject.getXform().getWidth() < 0) {
         this.mRenderableObject.getXform().setSize(0, this.mRenderableObject.getXform().getHeight());
     }
