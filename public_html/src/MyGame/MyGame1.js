@@ -98,9 +98,9 @@ MyGame1.prototype.initialize = function () {
     this.mDragTest2 = new Draggable(this.mRenderableTest2, this.mCamera);
     this.mDragTest2.setDragArea(0, 4, 10, 2);
 
-    this.mResizeAndDrag = new Resizeable(this.mDragTest2, this.mCamera);
+    this.mResizeAndDrag = new Resizeable(this.mRenderableTest2, this.mCamera);
     this.mResizeAndDrag.initialize();
-    this.mResizeAndDrag.enableResizeAreaBorder();
+    //this.mResizeAndDrag.enableResizeAreaBorder();
 
     this.mPatrol = new Patrol(10, 40, true);
     this.mPatrol.initialize();
