@@ -110,6 +110,7 @@ MyGame1.prototype.initialize = function () {
     this.mDragGameObject.setDragArea(0, 0, 5, 5);
     this.mWindows = new WindowManager();
 
+
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
