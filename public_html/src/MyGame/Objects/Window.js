@@ -23,7 +23,9 @@
  * setKey(key): Sets the window's key.
  *      (key): The window's numerical key.
  * getKey(): Returns the window's numerical key.
- * draw(cam, objects): Draws the window on the inputted camera, and then draws the objects within the window on the inputted list of objects.
+ * drawWindow(cam): Draws the window's renderable.
+ *      (cam): The world camera that this window will be displayed on.
+ * drawCamera(cam, objects): Draws the window's camera.
  *      (cam): The world camera that this window will be displayed on.
  *      (objects): An array of objects to be displayed within the window's camera.
  * update(cam): Draws the window object. Its dimensions are specified by the inputted world camera.
@@ -39,6 +41,10 @@ function Window(renderableObject, windowCam, worldCam, xoffsetleft, xoffsetright
     this.mInitCamY = worldCam.getWCCenter()[1];
     this.mLastCamX = worldCam.getWCCenter()[0];
     this.mLastCamY = worldCam.getWCCenter()[1];
+    this.mInitCamWidth = worldCam.getWCWidth();
+    this.mLastCamWidth = worldCam.getWCWidth();
+    this.mInitCamHeight = worldCam.getWCHeight();
+    this.mLastCamHeight = worldCam.getWCHeight();
     this.mOffsetLeft = xoffsetleft;
     this.mOffsetRight = xoffsetright;
     this.mOffsetBottom = yoffsetbottom;
@@ -138,22 +144,49 @@ Window.prototype.drawCamera = function (cam, objects) {
 };
 
 Window.prototype.update = function (cam) {
-    this.mRenderableObject.getXform().setPosition(this.mRenderableObject.getXform().getXPos() + (cam.getWCCenter()[0] - this.mLastCamX),
-            this.mRenderableObject.getXform().getYPos() + (cam.getWCCenter()[1] - this.mLastCamY));
+    //Update renderable to camera position and size
+    //Update position
+    this.mRenderableObject.getXform().setPosition(this.mRenderableObject.getXform().getXPos() + (cam.getWCCenter()[0]-this.mLastCamX),
+        this.mRenderableObject.getXform().getYPos()+ (cam.getWCCenter()[1]-this.mLastCamY));
+    //Update size
+    if (cam.getWCWidth != this.mLastCamWidth) {
+        if (cam.getWCHeight != this.mLastCamHeight) {
+             this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth() + (cam.getWCWidth()-this.mLastCamWidth)/2,
+                this.mRenderableObject.getXform().getHeight() + (cam.getWCHeight()-this.mLastCamHeight)/2);
+        }
+        else {
+            this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth() + (cam.getWCWidth()-this.mLastCamWidth)/2,
+                this.mRenderableObject.getXform().getHeight());
+        };
+    }
+    else if (cam.getWCHeight != this.mLastCamHeight) {
+        this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth(),
+                this.mRenderableObject.getXform().getHeight() + (cam.getWCHeight()-this.mLastCamHeight)/2);
+    };
+    if (this.mRenderableObject.getXform().getWidth() < 0) { 
+        this.mRenderableObject.getXform().setSize(0, this.mRenderableObject.getXform().getHeight());
+    };
+    if (this.mRenderableObject.getXform().getHeight() < 0) { 
+        this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getHeight(), 0);
+    };
     this.mLastCamX = cam.getWCCenter()[0];
     this.mLastCamY = cam.getWCCenter()[1];
+    this.mLastCamWidth = cam.getWCWidth();
+    this.mLastCamHeight = cam.getWCHeight();
     //Set offsets with adherence to original offset
-    this.mOffsetLeft = this.mInitOffsetLeft * (1 + (this.mInitXform.getWidth() - this.mRenderableObject.getXform().getWidth()));
-    this.mOffsetRight = this.mInitOffsetRight * (1 + (this.mInitXform.getWidth() - this.mRenderableObject.getXform().getWidth()));
-    this.mOffsetBottom = this.mInitOffsetBottom * (1 + (this.mInitXform.getHeight() - this.mRenderableObject.getXform().getHeight()));
-    this.mOffsetTop = this.mInitOffsetTop * (1 + (this.mInitXform.getHeight() - this.mRenderableObject.getXform().getHeight()));
+    this.mOffsetLeft = this.mInitOffsetLeft / (1+(this.mInitXform.getWidth() - this.mRenderableObject.getXform().getWidth()));
+    this.mOffsetRight = this.mInitOffsetRight / (1+(this.mInitXform.getWidth() - this.mRenderableObject.getXform().getWidth()));
+    this.mOffsetBottom = this.mInitOffsetBottom / (1+(this.mInitXform.getHeight() - this.mRenderableObject.getXform().getHeight()));
+    this.mOffsetTop = this.mInitOffsetTop /  (1+(this.mInitXform.getHeight() - this.mRenderableObject.getXform().getHeight()));
     //Set camera dimensions to renderable dimensions - offsets
-    var width = (this.mRenderableObject.getXform().getWidth() - (this.mOffsetRight + this.mOffsetLeft)) * (cam.getViewport()[2] / cam.getWCWidth());
-    var height = (this.mRenderableObject.getXform().getHeight() - (this.mOffsetTop + this.mOffsetBottom)) * (cam.getViewport()[3] / cam.getWCHeight());
-    var x = ((this.mRenderableObject.getXform().getXPos()) - (this.mRenderableObject.getXform().getWidth() / 2) -
-            (cam.getWCCenter()[0] - cam.getWCWidth() / 2) + this.mOffsetLeft) * (cam.getViewport()[2] / cam.getWCWidth());
-    var y = ((this.mRenderableObject.getXform().getYPos()) - (this.mRenderableObject.getXform().getHeight() / 2) -
-            (cam.getWCCenter()[1] - cam.getWCHeight() / 2) + this.mOffsetBottom) * (cam.getViewport()[3] / cam.getWCHeight());
+    var width = (this.mRenderableObject.getXform().getWidth()-(this.mOffsetRight+this.mOffsetLeft))*(cam.getViewport()[2]/cam.getWCWidth());
+    var height = (this.mRenderableObject.getXform().getHeight()-(this.mOffsetTop+this.mOffsetBottom))*(cam.getViewport()[3]/cam.getWCHeight());
+    if (width < 0) { width = 0 };
+    if (height < 0) { height = 0 };
+    var x = ((this.mRenderableObject.getXform().getXPos())-(this.mRenderableObject.getXform().getWidth()/2)-
+            (cam.getWCCenter()[0]-cam.getWCWidth()/2)+this.mOffsetLeft)*(cam.getViewport()[2]/cam.getWCWidth());
+    var y = ((this.mRenderableObject.getXform().getYPos())-(this.mRenderableObject.getXform().getHeight()/2)-
+            (cam.getWCCenter()[1]-cam.getWCHeight()/2)+this.mOffsetBottom)*(cam.getViewport()[3]/cam.getWCHeight());
     this.mCamera.setViewport([x, y, width, height]);
 
 
@@ -163,8 +196,13 @@ Window.prototype.update = function (cam) {
     }
     if (this.mIsResize) {
         this.mResizeable.update();
+    };
+    
+    //TEST FUNCTIONS
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.F)) {
+        this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth()-0.2, this.mRenderableObject.getXform().getHeight()-0.2);
     }
-    ;
-
-
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.G)) {
+        this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth()+0.2, this.mRenderableObject.getXform().getHeight()+0.2);
+    }
 };
