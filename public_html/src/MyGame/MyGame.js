@@ -125,7 +125,7 @@ MyGame.prototype.initialize = function () {
             1.6, //Top offset
             true, false);
     window.initialize();
-    window.setDragArea(0, 30, 10, 5);
+    window.setDragArea(0, 5, 17.5, 5);
     this.mWindows.add(window, true);
 };
 
@@ -204,7 +204,8 @@ MyGame.prototype.update = function () {
     ;
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
         this.mCamera.setWCCenter(camX += delta, camY);
-    };
+    }
+    ;
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Z)) {
         this.mCamera.setWCWidth(this.mCamera.getWCWidth() - delta);
     }

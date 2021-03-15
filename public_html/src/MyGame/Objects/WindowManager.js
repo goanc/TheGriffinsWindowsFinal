@@ -18,7 +18,7 @@
  *      (objects): An array of objects that the window cameras will draw.
  * update(cam): Updates all windows according to the specs of the inputted camera.
  *      (cam): The world camera that all the windows' dimensions will compare to.
- */ 
+ */
 "use strict";
 
 function WindowManager() {
@@ -27,22 +27,21 @@ function WindowManager() {
 }
 gEngine.Core.inheritPrototype(WindowManager, GameObject);
 
-WindowManager.prototype.initialize = function() {
+WindowManager.prototype.initialize = function () {
     this.mKey = 0;
 }
 
-WindowManager.prototype.add = function(window, front) {
+WindowManager.prototype.add = function (window, front) {
     window.setKey(this.mKey);
     this.mKey++;
     if (front) {
         this.mList.unshift(window);
-    }
-    else {
+    } else {
         this.mList.push(window);
     }
 };
 
-WindowManager.prototype.remove = function(window) {
+WindowManager.prototype.remove = function (window) {
     for (var i = this.mList.length - 1; i >= 0; i--) {
         if (window.getKey() == this.mList[i].getKey()) {
             this.mList.splice(i, 1);
@@ -61,7 +60,7 @@ WindowManager.prototype.pushToFront = function (window) {
     }
 };
 
-WindowManager.prototype.draw = function(cam, objects) {
+WindowManager.prototype.draw = function (cam, objects) {
     for (var i = this.mList.length - 1; i >= 0; i--) {
         this.mList[i].drawRenderable(cam);
     }
@@ -70,8 +69,9 @@ WindowManager.prototype.draw = function(cam, objects) {
     }
 };
 
-WindowManager.prototype.update = function(cam) {
+WindowManager.prototype.update = function (cam) {
     for (var i = this.mList.length - 1; i >= 0; i--) {
         this.mList[i].update(cam);
+        this.mList[i].setMousePosition(cam.mouseWCX(), cam.mouseWCY());
     }
 }
