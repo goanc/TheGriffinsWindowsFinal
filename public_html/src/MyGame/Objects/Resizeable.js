@@ -126,23 +126,23 @@ Resizeable.prototype.update = function ()
     }
     if (this.resizingBottom === true)
     {
-        this.mRenderableObject.getXform().incHeightBy((this.initMousePosY - this.mMouseY) / 2);
-        this.mRenderableObject.getXform().incYPosBy((this.mMouseY - this.initMousePosY) / 4);     
+        this.mRenderableObject.getXform().incHeightBy((this.initMousePosY - this.mMouseY) / 1);
+        this.mRenderableObject.getXform().incYPosBy((this.mMouseY - this.initMousePosY) / 2);     
     }
     if (this.resizingTop === true)
     {
-        this.mRenderableObject.getXform().incHeightBy((this.mMouseY - this.initMousePosY) / 2);
-        this.mRenderableObject.getXform().incYPosBy((this.mMouseY - this.initMousePosY) / 4);  
+        this.mRenderableObject.getXform().incHeightBy((this.mMouseY - this.initMousePosY) / 1);
+        this.mRenderableObject.getXform().incYPosBy((this.mMouseY - this.initMousePosY) / 2);  
     }
     if (this.resizingRight === true)
     {
-        this.mRenderableObject.getXform().incWidthBy((this.mMouseX - this.initMousePosX) / 2);
-        this.mRenderableObject.getXform().incXPosBy((this.mMouseX - this.initMousePosX) / 4);   
+        this.mRenderableObject.getXform().incWidthBy((this.mMouseX - this.initMousePosX) / 1);
+        this.mRenderableObject.getXform().incXPosBy((this.mMouseX - this.initMousePosX) / 2);   
     }
     if (this.resizingLeft === true)
     {
-        this.mRenderableObject.getXform().incWidthBy((this.initMousePosX - this.mMouseX) / 2);
-        this.mRenderableObject.getXform().incXPosBy((this.mMouseX - this.initMousePosX) / 4); 
+        this.mRenderableObject.getXform().incWidthBy((this.initMousePosX - this.mMouseX) / 1);
+        this.mRenderableObject.getXform().incXPosBy((this.mMouseX - this.initMousePosX) / 2); 
     }
     
     this.initMousePosX = this.mMouseX;
@@ -163,7 +163,7 @@ Resizeable.prototype.update = function ()
 
 Resizeable.prototype.draw = function (camera) 
 {
-    this.mRenderableObject.draw(camera);
+    //this.mRenderableObject.draw(camera);
     if (this.mBorderState) 
     {
         this.mBorderBottom.draw(camera);
