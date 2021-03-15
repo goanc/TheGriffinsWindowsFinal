@@ -148,19 +148,19 @@ MyGame2.prototype.update = function () {
     
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
         this.mHero.getXform().incYPosBy(delta);
-        this.mMiniHero.getXform().incYPosBy(delta);
+        this.mMiniHero.getXform().incYPosBy(delta/2);
     };
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
         this.mHero.getXform().incXPosBy(-delta);
-        this.mMiniHero.getXform().incXPosBy(-delta);
+        this.mMiniHero.getXform().incXPosBy(-delta/2);
     };
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
         this.mHero.getXform().incYPosBy(-delta);
-        this.mMiniHero.getXform().incYPosBy(-delta);
+        this.mMiniHero.getXform().incYPosBy(-delta/2);
     };
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
         this.mHero.getXform().incXPosBy(delta);
-        this.mMiniHero.getXform().incXPosBy(delta);
+        this.mMiniHero.getXform().incXPosBy(delta/2);
     };
     
         //Change Scene
