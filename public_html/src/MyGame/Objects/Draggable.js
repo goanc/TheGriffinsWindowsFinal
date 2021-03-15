@@ -1,5 +1,15 @@
-/* Draggable.js
+/* Class: Draggable.js
  * Author: The Griffins
+ * 
+ * A GameObject that allows a renderable to be resized by dragging the edges with the mouse
+ * 
+ * FUNCTIONS:
+ * Draggable(renderableObject): A class that allows a renderable to be moved by clicking and dragging the left mosue button
+ * draw(camera): Draws the renderable and the borders to the camera, if enabled.
+ * update(): Detects clicks in the drag area and changes renderable transform accordingly.
+ * setMousePosition(x, y): Used to pass the mouse position to this object.
+ * enableResizeAreaBorder(): Shows drag area border
+ * disableResizeAreaBorder(): Hides drag area border
  */
 "use strict";
 

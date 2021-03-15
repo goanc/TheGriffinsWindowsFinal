@@ -19,6 +19,7 @@ function MyGame() {
 
     this.mDragTest = null;
     this.mDragTest2 = null;
+    this.mWindowInDrag = null;
     this.mDragGameObject = null;
     this.mResizeTest = null;
     this.mResizeAndDrag = null;
@@ -108,7 +109,24 @@ MyGame.prototype.initialize = function () {
     this.mDragGameObject.setDragArea(0, 0, 5, 5);
     //debugger;
     this.mWindows = new WindowManager();
-    //debugger;
+
+    var box = new TextureRenderable(this.kWindowSprite);
+    box.setColor([1, 1, 1, 0]);
+    box.getXform().setPosition(this.mCamera.getWCCenter()[0] + ((Math.random() * 80) - 40), this.mCamera.getWCCenter()[1] + ((Math.random() * 60) - 30));
+    box.getXform().setSize(20, 15);
+    var cam = new Camera(vec2.fromValues(30, 27.5), // position of the camera
+            20, // width of camera
+            [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
+            );
+    cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
+    var window = new Window(box, cam, this.mCamera, 1, //Left offset
+            1, //Right offset
+            1.2, //Bottom offset
+            1.6, //Top offset
+            true, false);
+    window.initialize();
+    window.setDragArea(0, 30, 10, 5);
+    this.mWindows.add(window, true);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -131,7 +149,7 @@ MyGame.prototype.update = function () {
     var delta = 2;
     var camX = this.mCamera.getWCCenter()[0];
     var camY = this.mCamera.getWCCenter()[1];
-    
+
     this.mDragTest.setMousePosition(this.mCamera.mouseWCX(), this.mCamera.mouseWCY());
     this.mDragTest.update();
 
@@ -156,7 +174,7 @@ MyGame.prototype.update = function () {
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
         var box = new TextureRenderable(this.kWindowSprite);
         box.setColor([1, 1, 1, 0]);
-        box.getXform().setPosition(camX + ((Math.random() * 80)-40), camY + ((Math.random() * 60)-30));
+        box.getXform().setPosition(camX + ((Math.random() * 80) - 40), camY + ((Math.random() * 60) - 30));
         box.getXform().setSize(20, 15);
         var cam = new Camera(vec2.fromValues(30, 27.5), // position of the camera
                 20, // width of camera
@@ -170,23 +188,27 @@ MyGame.prototype.update = function () {
                 false, false);
         this.mWindows.add(window, true);
     }
-    
+
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
         this.mCamera.setWCCenter(camX, camY += delta);
-    };
+    }
+    ;
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
         this.mCamera.setWCCenter(camX -= delta, camY);
-    };
+    }
+    ;
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
         this.mCamera.setWCCenter(camX, camY -= delta);
-    };
+    }
+    ;
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
         this.mCamera.setWCCenter(camX += delta, camY);
-    };
+    }
+    ;
     this.mCamera.update();
 
     this.mDrawnObjects = [this.mDragTest, this.mDragTest2, this.mDragGameObject, this.mPatrol, this.mResizeTest];
-    
+
     this.mWindows.update(this.mCamera);
 };

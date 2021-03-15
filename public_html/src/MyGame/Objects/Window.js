@@ -50,16 +50,24 @@ function Window(renderableObject, windowCam, worldCam, xoffsetleft, xoffsetright
     this.mIsDrag = drag;
     this.mIsResize = resize;
     this.mVisible = true;
-    this.mDraggable = null;
+
+
+    this.mDragArea = null;
     this.mResizeable = null;
     this.mKey = null;
-};
+
+    this.mDragAreaXOffset = null;
+    this.mDragAreaYOffset = null;
+    this.mDragAreaWidth = null;
+    this.mDragAreaHeight = null;
+}
+;
 
 gEngine.Core.inheritPrototype(Window, GameObject);
 
 Window.prototype.initialize = function () {
     if (this.mIsDrag) {
-        this.mDraggable = new Draggable(this.mRenderableObject);
+        this.mDragArea = new Box(0, 0, 0, 0);
     }
     ;
     if (this.mIsResize) {
@@ -67,7 +75,19 @@ Window.prototype.initialize = function () {
     }
     ;
 
-}
+};
+
+Window.prototype.setDragArea = function (xOffset, yOffset, width, height) {
+    this.mDragAreaXOffset = xOffset;
+    this.mDragAreaYOffset = yOffset;
+    this.mDragAreaWidth = width;
+    this.mDragAreaHeight = height;
+
+    this.mDragArea.setBoxCenter(this.mRenderableObject.getXform().getXPos() + xOffset, this.mRenderableObject.getXform().getYPos() + yOffset);
+    this.mDragArea.setWidth(width);
+    this.mDragArea.setHeight(height);
+
+};
 
 Window.prototype.setIsDrag = function (bool) {
     this.mIsDrag = bool;
@@ -93,30 +113,33 @@ Window.prototype.getCamera = function () {
     return this.mCamera;
 };
 
-Window.prototype.setKey = function(key) {
+Window.prototype.setKey = function (key) {
     this.mKey = key;
 }
 
-Window.prototype.getKey = function() {
+Window.prototype.getKey = function () {
     return this.mKey;
 }
 
-Window.prototype.drawRenderable = function(cam) {
+Window.prototype.drawRenderable = function (cam) {
     if (this.mVisible) {
         this.mRenderableObject.draw(cam);
+        this.mDragArea.draw(cam);
+    }
+
+
+};
+
+Window.prototype.drawCamera = function (cam, objects) {
+    this.mCamera.setupViewProjection();
+    for (var i = 0; i < objects.length; i++) {
+        objects[i].draw(this.mCamera);
     }
 };
 
-Window.prototype.drawCamera = function(cam, objects){
-        this.mCamera.setupViewProjection();
-        for (var i = 0; i < objects.length; i++) {
-            objects[i].draw(this.mCamera);
-        }
-}
-
 Window.prototype.update = function (cam) {
-    this.mRenderableObject.getXform().setPosition(this.mRenderableObject.getXform().getXPos() + (cam.getWCCenter()[0]-this.mLastCamX),
-        this.mRenderableObject.getXform().getYPos()+ (cam.getWCCenter()[1]-this.mLastCamY));
+    this.mRenderableObject.getXform().setPosition(this.mRenderableObject.getXform().getXPos() + (cam.getWCCenter()[0] - this.mLastCamX),
+            this.mRenderableObject.getXform().getYPos() + (cam.getWCCenter()[1] - this.mLastCamY));
     this.mLastCamX = cam.getWCCenter()[0];
     this.mLastCamY = cam.getWCCenter()[1];
     //Set offsets with adherence to original offset
@@ -133,11 +156,15 @@ Window.prototype.update = function (cam) {
             (cam.getWCCenter()[1] - cam.getWCHeight() / 2) + this.mOffsetBottom) * (cam.getViewport()[3] / cam.getWCHeight());
     this.mCamera.setViewport([x, y, width, height]);
 
+
+
     if (this.mIsDrag) {
-        this.mDraggable.update();
+
     }
     if (this.mIsResize) {
         this.mResizeable.update();
     }
     ;
+
+
 };
