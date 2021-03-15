@@ -178,20 +178,16 @@ MyGame1.prototype.update = function () {
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
         this.mCamera.setWCCenter(camX, camY += delta);
-    }
-    ;
+    };
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
         this.mCamera.setWCCenter(camX -= delta, camY);
-    }
-    ;
+    };
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
         this.mCamera.setWCCenter(camX, camY -= delta);
-    }
-    ;
+    };
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
         this.mCamera.setWCCenter(camX += delta, camY);
-    }
-    ;
+    };
     this.mCamera.update();
 
     this.mDrawnObjects = [this.mDragTest, this.mDragTest2, this.mDragGameObject, this.mPatrol, this.mResizeTest];

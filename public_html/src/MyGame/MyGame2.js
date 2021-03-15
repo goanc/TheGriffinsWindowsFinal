@@ -26,6 +26,9 @@ function MyGame2() {
     this.kStats = "assets/playerstats.png";
     this.mWindows = null;
     this.mDrawnObjects = [];
+    this.mMiniMap = null;
+    this.mBackground = null;
+    this.mHero = null;
 }
 gEngine.Core.inheritPrototype(MyGame2, Scene);
 
@@ -56,6 +59,16 @@ MyGame2.prototype.initialize = function () {
             [0, 0, 640, 480]           // viewport (orgX, orgY, width, height)
             );
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
+    
+    this.mHero = new SpriteRenderable(this.kSpriteSheet);
+    this.mHero.setElementPixelPositions(0, 150, 0, 200);
+    this.mHero.getXform().setPosition(30, 30);
+    this.mHero.getXform().setSize(10,10);
+
+    this.mMiniHero = new SpriteRenderable(this.kSpriteSheet);
+    this.mMiniHero.setElementPixelPositions(0, 150, 0, 200);
+    this.mMiniHero.getXform().setPosition(400, 30);
+    this.mMiniHero.getXform().setSize(5,5);
     
     this.mBackground = new TextureRenderable(this.kBackground);
     this.mBackground.setColor([1, 1, 1, 0]);
@@ -101,7 +114,7 @@ MyGame2.prototype.initialize = function () {
             [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
             );
     cam2.setBackgroundColor([0.5, 0.5, 0.5, 1]);
-    var window2 = new Window(bars, cam2, this.mCamera, 0, //Left offset
+    var window2 = new Window(bars, cam2, this.mCamera, 0, //Left offsetq
             0, //Right offset
             0, //Bottom offset
             0, //Top offset
@@ -118,19 +131,37 @@ MyGame2.prototype.draw = function () {
 
     this.mCamera.setupViewProjection();
     this.mBackground.draw(this.mCamera);
+    this.mHero.draw(this.mCamera);
     this.mWindows.draw(this.mCamera, this.mDrawnObjects);
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame2.prototype.update = function () {
-
+    var delta = 0.5;
 
     this.mCamera.update();
 
-    this.mDrawnObjects = [this.mMiniMap, this.mBars];
+    this.mDrawnObjects = [this.mMiniMap, this.mBars, this.mHero, this.mMiniHero];
 
     this.mWindows.update(this.mCamera);
+    
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
+        this.mHero.getXform().incYPosBy(delta);
+        this.mMiniHero.getXform().incYPosBy(delta);
+    };
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
+        this.mHero.getXform().incXPosBy(-delta);
+        this.mMiniHero.getXform().incXPosBy(-delta);
+    };
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
+        this.mHero.getXform().incYPosBy(-delta);
+        this.mMiniHero.getXform().incYPosBy(-delta);
+    };
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+        this.mHero.getXform().incXPosBy(delta);
+        this.mMiniHero.getXform().incXPosBy(delta);
+    };
     
         //Change Scene
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
