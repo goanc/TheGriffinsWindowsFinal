@@ -17,23 +17,11 @@ function MyGame2() {
 
     this.mMsg = null;
 
-    this.mDragTest = null;
-    this.mDragTest2 = null;
     this.mWindowInDrag = null;
-    this.mDragGameObject = null;
-    this.mResizeTest = null;
-    this.mResizeAndDrag = null;
 
-    this.mRenderableTest = null;
-    this.mRenderableTest2 = null;
-    this.mSpriteAnimate = null;
-    this.mPatrol = null;
-
-    this.kBackground = "assets/SpriteSheet.png";
-    this.kMiniMap = "assets/SpriteSheet.png";
+    this.kBackground = "assets/planet.jpg";
+    this.kMiniMap = "assets/space.jpg";
     this.kWindowSprite = "assets/computerwindow.png";
-    this.mCurrentLine = null;
-    this.mP1 = null;
     this.mWindows = null;
     this.mDrawnObjects = [];
 }
@@ -62,20 +50,31 @@ MyGame2.prototype.initialize = function () {
             [0, 0, 640, 480]           // viewport (orgX, orgY, width, height)
             );
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
+    
+    this.mBackground = new TextureRenderable(this.kBackground);
+    this.mBackground.setColor([1, 1, 1, 0]);
+    this.mBackground.getXform().setPosition(30, 30);
+    this.mBackground.getXform().setSize(100, 80);
+    
+    this.mMiniMap = new TextureRenderable(this.kMiniMap);
+    this.mMiniMap.setColor([1, 1, 1, 0]);
+    this.mMiniMap.getXform().setPosition(400, 30);
+    this.mMiniMap.getXform().setSize(100, 80);
+
     this.mWindows = new WindowManager();
  
     var box = new TextureRenderable(this.kWindowSprite);
     box.setColor([1, 1, 1, 0]);
-    box.getXform().setPosition(40, 40);
+    box.getXform().setPosition(-8, 55);
     box.getXform().setSize(20, 20);
-    var cam = new Camera(vec2.fromValues(30, 27.5), // position of the camera
-            20, // width of camera
+    var cam = new Camera(vec2.fromValues(400, 27.5), // position of the camera
+            80, // width of camera
             [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
             );
     cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
     var window = new Window(box, cam, this.mCamera, 0.9, //Left offset
             0.9, //Right offset
-            1.1, //Bottom offset
+            1.4, //Bottom offset
             1.8, //Top offset
             false, false);
     this.mWindows.add(window, true);
@@ -88,10 +87,7 @@ MyGame2.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
     this.mCamera.setupViewProjection();
-    for (var i = 0; i < this.mDrawnObjects.length; i++) {
-        this.mDrawnObjects[i].draw(this.mCamera);
-    }
-
+    this.mBackground.draw(this.mCamera);
     this.mWindows.draw(this.mCamera, this.mDrawnObjects);
 };
 
@@ -102,7 +98,7 @@ MyGame2.prototype.update = function () {
 
     this.mCamera.update();
 
-    this.mDrawnObjects = [];
+    this.mDrawnObjects = [this.mMiniMap];
 
     this.mWindows.update(this.mCamera);
     
