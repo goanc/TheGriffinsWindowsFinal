@@ -149,19 +149,15 @@ Window.prototype.update = function (cam) {
     this.mLastCamWidth = cam.getWCWidth();
     this.mLastCamHeight = cam.getWCHeight();
     //Set offsets with adherence to original offset
-    this.mOffsetLeft = this.mInitOffsetLeft * (1+(this.mInitXform.getWidth() - this.mRenderableObject.getXform().getWidth()));
-    this.mOffsetRight = this.mInitOffsetRight * (1+(this.mInitXform.getWidth() - this.mRenderableObject.getXform().getWidth()));
-    this.mOffsetBottom = this.mInitOffsetBottom * (1+(this.mInitXform.getHeight() - this.mRenderableObject.getXform().getHeight()));
-    this.mOffsetTop = this.mInitOffsetTop * (1+(this.mInitXform.getHeight() - this.mRenderableObject.getXform().getHeight()));
+    this.mOffsetLeft = this.mInitOffsetLeft / (1+(this.mInitXform.getWidth() - this.mRenderableObject.getXform().getWidth()));
+    this.mOffsetRight = this.mInitOffsetRight / (1+(this.mInitXform.getWidth() - this.mRenderableObject.getXform().getWidth()));
+    this.mOffsetBottom = this.mInitOffsetBottom / (1+(this.mInitXform.getHeight() - this.mRenderableObject.getXform().getHeight()));
+    this.mOffsetTop = this.mInitOffsetTop /  (1+(this.mInitXform.getHeight() - this.mRenderableObject.getXform().getHeight()));
     //Set camera dimensions to renderable dimensions - offsets
     var width = (this.mRenderableObject.getXform().getWidth()-(this.mOffsetRight+this.mOffsetLeft))*(cam.getViewport()[2]/cam.getWCWidth());
     var height = (this.mRenderableObject.getXform().getHeight()-(this.mOffsetTop+this.mOffsetBottom))*(cam.getViewport()[3]/cam.getWCHeight());
-    if (width < 0) {
-        width = 0;
-    };
-    if (height < 0) {
-        height = 0;
-    }
+    if (width < 0) { width = 0 };
+    if (height < 0) { height = 0 };
     var x = ((this.mRenderableObject.getXform().getXPos())-(this.mRenderableObject.getXform().getWidth()/2)-
             (cam.getWCCenter()[0]-cam.getWCWidth()/2)+this.mOffsetLeft)*(cam.getViewport()[2]/cam.getWCWidth());
     var y = ((this.mRenderableObject.getXform().getYPos())-(this.mRenderableObject.getXform().getHeight()/2)-
@@ -174,4 +170,12 @@ Window.prototype.update = function (cam) {
     if (this.mIsResize) {
         this.mResizeable.update();
     };
+    
+    //TEST FUNCTIONS
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.F)) {
+        this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth()-0.2, this.mRenderableObject.getXform().getHeight()-0.2);
+    }
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.G)) {
+        this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth()+0.2, this.mRenderableObject.getXform().getHeight()+0.2);
+    }
 };
