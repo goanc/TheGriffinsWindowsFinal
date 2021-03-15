@@ -86,17 +86,16 @@ Window.prototype.initialize = function () {
 };
 
 Window.prototype.setDragArea = function (xOffset, yOffset, width, height) {
-    this.mDragAreaXOffset = xOffset;
-    this.mDragAreaYOffset = yOffset;
-    this.mDragAreaWidth = width;
-    this.mDragAreaHeight = height;
+    if (this.mIsDrag) {
+        this.mDragAreaXOffset = xOffset;
+        this.mDragAreaYOffset = yOffset;
+        this.mDragAreaWidth = width;
+        this.mDragAreaHeight = height;
 
-    this.mDragArea.getXform().setPosition(this.mRenderableObject.getXform().getXPos() + xOffset, this.mRenderableObject.getXform().getYPos() + yOffset);
-    this.mDragArea.getXform().setWidth(width);
-    this.mDragArea.getXform().setHeight(height);
-
-
-
+        this.mDragArea.getXform().setPosition(this.mRenderableObject.getXform().getXPos() + xOffset, this.mRenderableObject.getXform().getYPos() + yOffset);
+        this.mDragArea.getXform().setWidth(width);
+        this.mDragArea.getXform().setHeight(height);
+    }
 };
 
 Window.prototype.setIsDrag = function (bool) {
@@ -154,55 +153,8 @@ Window.prototype.drawCamera = function (cam, objects) {
 };
 
 Window.prototype.update = function (cam) {
-    //Update renderable to camera position and size
-    //Update position
-    this.mRenderableObject.getXform().setPosition(this.mRenderableObject.getXform().getXPos() + (cam.getWCCenter()[0] - this.mLastCamX),
-            this.mRenderableObject.getXform().getYPos() + (cam.getWCCenter()[1] - this.mLastCamY));
-    //Update size
-    /*if (cam.getWCWidth != this.mLastCamWidth) {
-     if (cam.getWCHeight != this.mLastCamHeight) {
-     this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth() + (cam.getWCWidth() - this.mLastCamWidth) / 2,
-     this.mRenderableObject.getXform().getHeight() + (cam.getWCHeight() - this.mLastCamHeight) / 2);
-     } else {
-     this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth() + (cam.getWCWidth() - this.mLastCamWidth) / 2,
-     this.mRenderableObject.getXform().getHeight());
-     }
-     ;
-     } else if (cam.getWCHeight != this.mLastCamHeight) {
-     this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth(),
-     this.mRenderableObject.getXform().getHeight() + (cam.getWCHeight()-this.mLastCamHeight)/2);
-     };*/
-    if (this.mRenderableObject.getXform().getWidth() < 0) {
-        this.mRenderableObject.getXform().setSize(0, this.mRenderableObject.getXform().getHeight());
-    }
-    ;
-    if (this.mRenderableObject.getXform().getHeight() < 0) {
-        this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getHeight(), 0);
-    }
-    ;
-    this.mLastCamX = cam.getWCCenter()[0];
-    this.mLastCamY = cam.getWCCenter()[1];
-    this.mLastCamWidth = cam.getWCWidth();
-    this.mLastCamHeight = cam.getWCHeight();
-    //Set camera dimensions to renderable dimensions - offsets
-    var width = (this.mRenderableObject.getXform().getWidth() -
-            (this.mOffsetRight * this.mRenderableObject.getXform().getWidth() + this.mOffsetLeft * this.mRenderableObject.getXform().getWidth())) * (cam.getViewport()[2] / cam.getWCWidth());
-    var height = (this.mRenderableObject.getXform().getHeight() -
-            (this.mOffsetTop * this.mRenderableObject.getXform().getHeight() + this.mOffsetBottom * this.mRenderableObject.getXform().getHeight())) * (cam.getViewport()[3] / cam.getWCHeight());
-    if (width < 0) {
-        width = 0
-    }
-    ;
-    if (height < 0) {
-        height = 0
-    }
-    ;
-    var x = ((this.mRenderableObject.getXform().getXPos()) - (this.mRenderableObject.getXform().getWidth() / 2) -
-            (cam.getWCCenter()[0] - cam.getWCWidth() / 2) + this.mOffsetLeft * this.mRenderableObject.getXform().getWidth()) * (cam.getViewport()[2] / cam.getWCWidth());
-    var y = ((this.mRenderableObject.getXform().getYPos()) - (this.mRenderableObject.getXform().getHeight() / 2) -
-            (cam.getWCCenter()[1] - cam.getWCHeight() / 2) + this.mOffsetBottom * this.mRenderableObject.getXform().getHeight()) * (cam.getViewport()[3] / cam.getWCHeight());
-    this.mCamera.setViewport([x, y, width, height]);
     if (this.mIsDrag) {
+        this.mDragArea.getXform().setPosition(this.mRenderableObject.getXform().getXPos() + this.mDragAreaXOffset, this.mRenderableObject.getXform().getYPos() + this.mDragAreaYOffset);
         var mX = this.mDragArea.getXform().getXPos();
         var mY = this.mDragArea.getXform().getYPos();
         var mWidth = this.mDragArea.getXform().getWidth();
@@ -248,8 +200,7 @@ Window.prototype.update = function (cam) {
 
         }
     }
-
-
+    
     //TEST FUNCTIONS
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.F)) {
         this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth() - 0.2, this.mRenderableObject.getXform().getHeight() - 0.2);
@@ -257,5 +208,52 @@ Window.prototype.update = function (cam) {
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.G)) {
         this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth() + 0.2, this.mRenderableObject.getXform().getHeight() + 0.2);
     }
+    
+    //Update renderable to camera position and size
+    //Update position
+    this.mRenderableObject.getXform().setPosition(this.mRenderableObject.getXform().getXPos() + (cam.getWCCenter()[0] - this.mLastCamX),
+            this.mRenderableObject.getXform().getYPos() + (cam.getWCCenter()[1] - this.mLastCamY));
+    //Update size
+    /*if (cam.getWCWidth != this.mLastCamWidth) {
+     if (cam.getWCHeight != this.mLastCamHeight) {
+     this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth() + (cam.getWCWidth() - this.mLastCamWidth) / 2,
+     this.mRenderableObject.getXform().getHeight() + (cam.getWCHeight() - this.mLastCamHeight) / 2);
+     } else {
+     this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth() + (cam.getWCWidth() - this.mLastCamWidth) / 2,
+     this.mRenderableObject.getXform().getHeight());
+     }
+     ;
+     } else if (cam.getWCHeight != this.mLastCamHeight) {
+     this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth(),
+     this.mRenderableObject.getXform().getHeight() + (cam.getWCHeight()-this.mLastCamHeight)/2);
+     };*/
+    if (this.mRenderableObject.getXform().getWidth() < 0) {
+        this.mRenderableObject.getXform().setSize(0, this.mRenderableObject.getXform().getHeight());
+    }
+    ;
+    if (this.mRenderableObject.getXform().getHeight() < 0) {
+        this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getHeight(), 0);
+    }
+    ;
+    this.mLastCamX = cam.getWCCenter()[0];
+    this.mLastCamY = cam.getWCCenter()[1];
+    this.mLastCamWidth = cam.getWCWidth();
+    this.mLastCamHeight = cam.getWCHeight();
+    //Set camera dimensions to renderable dimensions - offsets
+    var width = (this.mRenderableObject.getXform().getWidth() -
+            (this.mOffsetRight * this.mRenderableObject.getXform().getWidth() + this.mOffsetLeft * this.mRenderableObject.getXform().getWidth())) * (cam.getViewport()[2] / cam.getWCWidth());
+    var height = (this.mRenderableObject.getXform().getHeight() -
+            (this.mOffsetTop * this.mRenderableObject.getXform().getHeight() + this.mOffsetBottom * this.mRenderableObject.getXform().getHeight())) * (cam.getViewport()[3] / cam.getWCHeight());
+    if (width < 0) {
+        width = 0
+    };
+    if (height < 0) {
+        height = 0
+    };
+    var x = ((this.mRenderableObject.getXform().getXPos()) - (this.mRenderableObject.getXform().getWidth() / 2) -
+            (cam.getWCCenter()[0] - cam.getWCWidth() / 2) + this.mOffsetLeft * this.mRenderableObject.getXform().getWidth()) * (cam.getViewport()[2] / cam.getWCWidth());
+    var y = ((this.mRenderableObject.getXform().getYPos()) - (this.mRenderableObject.getXform().getHeight() / 2) -
+            (cam.getWCCenter()[1] - cam.getWCHeight() / 2) + this.mOffsetBottom * this.mRenderableObject.getXform().getHeight()) * (cam.getViewport()[3] / cam.getWCHeight());
+    this.mCamera.setViewport([x, y, width, height]);
 }
 ;

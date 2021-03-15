@@ -76,7 +76,9 @@ MyGame2.prototype.initialize = function () {
             0.9, //Right offset
             1.4, //Bottom offset
             1.8, //Top offset
-            false, false);
+            true, false);
+    window.initialize();
+    window.setDragArea(0,9, 20, 2);
     this.mWindows.add(window, true);
 };
 
