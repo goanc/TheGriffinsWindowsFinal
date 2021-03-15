@@ -173,18 +173,6 @@ Resizeable.prototype.draw = function (camera)
     }
 };
 
-Resizeable.prototype.setResizeArea = function (xOffset, yOffset, width, height) 
-{
-//    this.mResizeAreaXOffset = xOffset;
-//    this.mResizeAreaYOffset = yOffset;
-//    this.mResizeAreaWidth = width;
-//    this.mResizeAreaHeight = height;
-//
-//    this.mBorder.setBoxCenter(this.mRenderableObject.getXform().getXPos() + xOffset, this.mRenderableObject.getXform().getYPos() + yOffset);
-//    this.mBorder.setWidth(width);
-//    this.mBorder.setHeight(height);
-};
-
 Resizeable.prototype.setMousePosition = function (x, y) 
 {
     this.mMouseX = x;

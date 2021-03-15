@@ -110,24 +110,6 @@ MyGame1.prototype.initialize = function () {
     this.mDragGameObject.setDragArea(0, 0, 5, 5);
     this.mWindows = new WindowManager();
 
-    var box = new TextureRenderable(this.kWindowSprite);
-    box.setColor([1, 1, 1, 0]);
-    box.getXform().setPosition(this.mCamera.getWCCenter()[0] + ((Math.random() * 80) - 40), this.mCamera.getWCCenter()[1] + ((Math.random() * 60) - 30));
-    box.getXform().setSize(20, 15);
-    var cam = new Camera(vec2.fromValues(30, 27.5), // position of the camera
-            20, // width of camera
-            [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
-            );
-    cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
-    var window = new Window(box, cam, this.mCamera, 1, //Left offset
-            1, //Right offset
-            1.2, //Bottom offset
-            1.6, //Top offset
-            true, false);
-    window.initialize();
-    window.setDragArea(0, 7, 20, 2);
-    this.mWindows.add(window, true);
-
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -178,7 +160,7 @@ MyGame1.prototype.update = function () {
         box.getXform().setPosition(camX + ((Math.random() * 80) - 40), camY + ((Math.random() * 60) - 30));
         box.getXform().setSize(20, 15);
         var cam = new Camera(vec2.fromValues(camX + ((Math.random() * 80) - 40), camY + ((Math.random() * 60) - 30)), // position of the camera
-                120, // width of camera
+                100, // width of camera
                 [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
                 );
         cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
@@ -186,7 +168,9 @@ MyGame1.prototype.update = function () {
                 0.9, //Right offset
                 1.1, //Bottom offset
                 1.8, //Top offset
-                false, false);
+                true, false);
+        window.initialize();
+        window.setDragArea(0, 7, 20, 2);
         this.mWindows.add(window, true);
 
     }
