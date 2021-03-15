@@ -164,13 +164,17 @@ MyGame.prototype.update = function () {
                 [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
                 );
         cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
-        var window = new Window(box, cam, 1, //Left offset
+        var window = new Window(box, cam, this.mCamera, 1, //Left offset
                 1, //Right offset
                 1.2, //Bottom offset
                 1.6, //Top offset
                 false, false);
         this.mWindows.add(window, true);
     }
+    
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W)) {
+        
+    };
     this.mWindows.update(this.mCamera);
 
 
