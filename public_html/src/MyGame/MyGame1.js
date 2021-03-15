@@ -11,7 +11,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function MyGame() {
+function MyGame1() {
     // The camera to view the scene
     this.mCamera = null;
 
@@ -36,14 +36,14 @@ function MyGame() {
     this.mWindows = null;
     this.mDrawnObjects = [];
 }
-gEngine.Core.inheritPrototype(MyGame, Scene);
+gEngine.Core.inheritPrototype(MyGame1, Scene);
 
-MyGame.prototype.loadScene = function () {
+MyGame1.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kSpriteSheet);
     gEngine.Textures.loadTexture(this.kWindowSprite);
 };
 
-MyGame.prototype.unloadScene = function () {
+MyGame1.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kSpriteSheet);
     gEngine.Textures.unloadTexture(this.kWindowSprite);
 
@@ -51,7 +51,7 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Core.startScene(nextLevel);
 };
 
-MyGame.prototype.initialize = function () {
+MyGame1.prototype.initialize = function () {
     // Step A: set up the cameras
     this.mCamera = new Camera(
             vec2.fromValues(30, 30), // position of the camera
@@ -115,7 +115,7 @@ MyGame.prototype.initialize = function () {
 
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
-MyGame.prototype.draw = function () {
+MyGame1.prototype.draw = function () {
     // Step A: clear the canvas
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
@@ -129,7 +129,7 @@ MyGame.prototype.draw = function () {
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
-MyGame.prototype.update = function () {
+MyGame1.prototype.update = function () {
     var delta = 2;
     var camX = this.mCamera.getWCCenter()[0];
     var camY = this.mCamera.getWCCenter()[1];
