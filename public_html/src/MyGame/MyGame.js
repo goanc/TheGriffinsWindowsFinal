@@ -123,14 +123,6 @@ MyGame.prototype.draw = function () {
     }
 
     this.mWindows.draw(this.mCamera, this.mDrawnObjects);
-
-    for (var j = 0; j < this.mWindows.length; j++) {
-        var cam = this.mWindows[j].getCamera();
-        cam.setupViewProjection();
-        this.mDragTest.draw(cam);
-        this.mResizeTest.draw(cam);
-    }
-
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
@@ -164,7 +156,7 @@ MyGame.prototype.update = function () {
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
         var box = new TextureRenderable(this.kWindowSprite);
         box.setColor([1, 1, 1, 0]);
-        box.getXform().setPosition(camX + ((Math.random() * 60)-30), camY + ((Math.random() * 60)-30));
+        box.getXform().setPosition(camX + ((Math.random() * 80)-40), camY + ((Math.random() * 60)-30));
         box.getXform().setSize(20, 15);
         var cam = new Camera(vec2.fromValues(30, 27.5), // position of the camera
                 20, // width of camera
