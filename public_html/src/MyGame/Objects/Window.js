@@ -23,7 +23,9 @@
  * setKey(key): Sets the window's key.
  *      (key): The window's numerical key.
  * getKey(): Returns the window's numerical key.
- * draw(cam, objects): Draws the window on the inputted camera, and then draws the objects within the window on the inputted list of objects.
+ * drawWindow(cam): Draws the window's renderable.
+ *      (cam): The world camera that this window will be displayed on.
+ * drawCamera(cam, objects): Draws the window's camera.
  *      (cam): The world camera that this window will be displayed on.
  *      (objects): An array of objects to be displayed within the window's camera.
  * update(cam): Draws the window object. Its dimensions are specified by the inputted world camera.
