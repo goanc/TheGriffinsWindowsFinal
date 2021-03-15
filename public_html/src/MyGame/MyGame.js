@@ -92,8 +92,6 @@ MyGame.prototype.initialize = function () {
     this.mDragTest = new Draggable(this.mSpriteAnimate, this.mCamera);
     this.mDragTest.setDragArea(0, 4, 10, 2);
 
-
-
     this.mDragTest2 = new Draggable(this.mRenderableTest2, this.mCamera);
     this.mDragTest2.setDragArea(0, 4, 10, 2);
 
@@ -109,24 +107,6 @@ MyGame.prototype.initialize = function () {
     this.mDragGameObject.setDragArea(0, 0, 5, 5);
     //debugger;
     this.mWindows = new WindowManager();
-
-    var box = new TextureRenderable(this.kWindowSprite);
-    box.setColor([1, 1, 1, 0]);
-    box.getXform().setPosition(this.mCamera.getWCCenter()[0] + ((Math.random() * 80) - 40), this.mCamera.getWCCenter()[1] + ((Math.random() * 60) - 30));
-    box.getXform().setSize(20, 15);
-    var cam = new Camera(vec2.fromValues(30, 27.5), // position of the camera
-            20, // width of camera
-            [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
-            );
-    cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
-    var window = new Window(box, cam, this.mCamera, 1, //Left offset
-            1, //Right offset
-            1.2, //Bottom offset
-            1.6, //Top offset
-            true, false);
-    window.initialize();
-    window.setDragArea(0, 30, 10, 5);
-    this.mWindows.add(window, true);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -181,10 +161,10 @@ MyGame.prototype.update = function () {
                 [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
                 );
         cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
-        var window = new Window(box, cam, this.mCamera, 1, //Left offset
-                1, //Right offset
-                1.2, //Bottom offset
-                1.6, //Top offset
+        var window = new Window(box, cam, this.mCamera, 0.9, //Left offset
+                0.9, //Right offset
+                1.1, //Bottom offset
+                1.8, //Top offset
                 false, false);
         this.mWindows.add(window, true);
     }
@@ -205,12 +185,6 @@ MyGame.prototype.update = function () {
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
         this.mCamera.setWCCenter(camX += delta, camY);
     };
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Z)) {
-        this.mCamera.setWCWidth(this.mCamera.getWCWidth() - delta);
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.X)) {
-        this.mCamera.setWCWidth(this.mCamera.getWCWidth() + delta);
-    }
     this.mCamera.update();
 
     this.mDrawnObjects = [this.mDragTest, this.mDragTest2, this.mDragGameObject, this.mPatrol, this.mResizeTest];
