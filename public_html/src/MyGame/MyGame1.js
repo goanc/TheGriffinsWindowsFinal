@@ -46,6 +46,9 @@ MyGame.prototype.loadScene = function () {
 MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kSpriteSheet);
     gEngine.Textures.unloadTexture(this.kWindowSprite);
+    
+    var nextLevel = new MyGame2();  // load the next level
+    gEngine.Core.startScene(nextLevel);
 };
 
 MyGame.prototype.initialize = function () {
@@ -107,24 +110,6 @@ MyGame.prototype.initialize = function () {
     this.mDragGameObject.setDragArea(0, 0, 5, 5);
     //debugger;
     this.mWindows = new WindowManager();
-
-    var box = new TextureRenderable(this.kWindowSprite);
-    box.setColor([1, 1, 1, 0]);
-    box.getXform().setPosition(this.mCamera.getWCCenter()[0] + ((Math.random() * 80) - 40), this.mCamera.getWCCenter()[1] + ((Math.random() * 60) - 30));
-    box.getXform().setSize(20, 15);
-    var cam = new Camera(vec2.fromValues(30, 27.5), // position of the camera
-            20, // width of camera
-            [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
-            );
-    cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
-    var window = new Window(box, cam, this.mCamera, 1, //Left offset
-            1, //Right offset
-            1.2, //Bottom offset
-            1.6, //Top offset
-            true, false);
-    window.initialize();
-    window.setDragArea(0, 5, 17.5, 5);
-    this.mWindows.add(window, true);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -208,4 +193,9 @@ MyGame.prototype.update = function () {
     this.mDrawnObjects = [this.mDragTest, this.mDragTest2, this.mDragGameObject, this.mPatrol, this.mResizeTest];
 
     this.mWindows.update(this.mCamera);
+    
+    //Change Scene
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Q)) {
+        gEngine.GameLoop.stop();
+    }  
 };
