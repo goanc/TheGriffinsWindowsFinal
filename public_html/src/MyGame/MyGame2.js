@@ -79,7 +79,7 @@ MyGame2.prototype.initialize = function () {
     minimap.getXform().setPosition(-8, 55);
     minimap.getXform().setSize(20, 20);
     var cam = new Camera(vec2.fromValues(400, 27.5), // position of the camera
-            80, // width of camera
+            40, // width of camera
             [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
             );
     cam.setBackgroundColor([0.5, 0.5, 0.5, 1]);
