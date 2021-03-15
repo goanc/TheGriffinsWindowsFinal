@@ -96,6 +96,7 @@ Window.prototype.setDragArea = function (xOffset, yOffset, width, height) {
     this.mDragArea.getXform().setHeight(height);
 
 
+
 };
 
 Window.prototype.setIsDrag = function (bool) {
@@ -204,10 +205,11 @@ Window.prototype.update = function (cam) {
     if (this.mIsDrag) {
         var mX = this.mDragArea.getXform().getXPos();
         var mY = this.mDragArea.getXform().getYPos();
-        var mWidth = this.mDragArea.getXform().getWidth;
+        var mWidth = this.mDragArea.getXform().getWidth();
         var mHeight = this.mDragArea.getXform().getHeight();
 
-        var dragArea = new BoundingBox([mX, mY], width, height);
+        var dragArea = new BoundingBox([mX, mY], mWidth, mHeight);
+
 
         if (gEngine.Input.isButtonPressed(0)) {
             // if the mouse was not already down
