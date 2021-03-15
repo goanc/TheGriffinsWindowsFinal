@@ -208,13 +208,13 @@ Window.prototype.update = function (cam) {
         }
     }
     
-    //TEST FUNCTIONS
+    /*TEST FUNCTIONS
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.F)) {
         this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth() - 0.2, this.mRenderableObject.getXform().getHeight() - 0.2);
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.G)) {
         this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth() + 0.2, this.mRenderableObject.getXform().getHeight() + 0.2);
-    }
+    }*/
     
     //Update renderable to camera position and size
     //Update position
