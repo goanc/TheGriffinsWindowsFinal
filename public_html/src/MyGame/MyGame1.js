@@ -170,7 +170,10 @@ MyGame1.prototype.update = function () {
                 1.1, //Bottom offset
                 1.8, //Top offset
                 false, false);
+        console.log(window);
         this.mWindows.add(window, true);
+
+        //debugger;
     }
 
 

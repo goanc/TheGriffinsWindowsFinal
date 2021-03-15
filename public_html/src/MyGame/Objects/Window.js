@@ -68,8 +68,8 @@ function Window(renderableObject, windowCam, worldCam, xoffsetleft, xoffsetright
     this.wasDown = false;
     this.dragging = false;
 
-    gEngine.Core.inheritPrototype(Window, GameObject);
 }
+gEngine.Core.inheritPrototype(Window, GameObject);
 
 Window.prototype.initialize = function () {
 
