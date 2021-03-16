@@ -86,6 +86,23 @@ MyGame2.prototype.initialize = function () {
     this.mBars.getXform().setSize(100, 50);
 
     this.mWindows = new WindowManager();
+    
+    var bars = new TextureRenderable(this.kWindowSprite);
+    bars.setColor([1, 1, 1, 0]);
+    bars.getXform().setPosition(-8, 0);
+    bars.getXform().setSize(30, 15);
+    var cam2 = new Camera(vec2.fromValues(-400, 27.5), // position of the camera
+            80, // width of camera
+            [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
+            );
+    cam2.setBackgroundColor([0.5, 0.5, 0.5, 1]);
+    var window2 = new Window(bars, cam2, this.mCamera, 0, //Left offsetq
+            0, //Right offset
+            0, //Bottom offset
+            0, //Top offset
+            false, false);
+    window2.initialize();
+    this.mWindows.add(window2, true);
  
     var minimap = new TextureRenderable(this.kWindowSprite);
     minimap.setColor([1, 1, 1, 0]);
@@ -104,23 +121,6 @@ MyGame2.prototype.initialize = function () {
     window.initialize();
     window.setDragArea(0,9, 20, 2);
     this.mWindows.add(window, true);
-    
-    var bars = new TextureRenderable(this.kWindowSprite);
-    bars.setColor([1, 1, 1, 0]);
-    bars.getXform().setPosition(-8, 0);
-    bars.getXform().setSize(30, 15);
-    var cam2 = new Camera(vec2.fromValues(-400, 27.5), // position of the camera
-            80, // width of camera
-            [0, 0, 0, 0]           // viewport (orgX, orgY, width, height)
-            );
-    cam2.setBackgroundColor([0.5, 0.5, 0.5, 1]);
-    var window2 = new Window(bars, cam2, this.mCamera, 0, //Left offsetq
-            0, //Right offset
-            0, //Bottom offset
-            0, //Top offset
-            false, false);
-    window2.initialize();
-    this.mWindows.add(window2, true);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
