@@ -15,7 +15,7 @@
  *      (drag): A boolean that allows the window to be draggable if set to true.
  *      (resize): A boolean that allows the window to be resizeable if set to true.
  * initialize(): Initializes the window for dragging.
- * setDragArea(xOffset, yOffset, width, height): Defines an area for dragging.
+ * setDragArea(width, height): Defines an area for dragging.
  * setISDrag(bool): Defines if the window is draggable or not, depending on whether the input is true or false.
  *      (bool): A boolean that allows the window to be draggable if set to true.
  * setISResize(bool): Defines if the window is resizeable or not, depending on whether the input is true or false.
@@ -159,8 +159,8 @@ Window.prototype.drawCamera = function (cam, objects) {
     for (var i = 0; i < objects.length; i++) {
         objects[i].draw(this.mCamera);
     }
-    
-    
+
+
 };
 
 Window.prototype.update = function (cam) {
@@ -211,7 +211,7 @@ Window.prototype.update = function (cam) {
 
         }
     }
-    
+
     //TEST FUNCTIONS
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.F)) {
         this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth() - 0.2, this.mRenderableObject.getXform().getHeight() - 0.2);
@@ -219,12 +219,12 @@ Window.prototype.update = function (cam) {
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.G)) {
         this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth() + 0.2, this.mRenderableObject.getXform().getHeight() + 0.2);
     }
-    
+
     //Update renderable to camera position and size
     //Update position
     this.mRenderableObject.getXform().setPosition(this.mRenderableObject.getXform().getXPos() + (cam.getWCCenter()[0] - this.mLastCamX),
             this.mRenderableObject.getXform().getYPos() + (cam.getWCCenter()[1] - this.mLastCamY));
-    
+
     //Update size to world camera (INCOMPLETE FEATURE)
     /*if (cam.getWCWidth != this.mLastCamWidth) {
      if (cam.getWCHeight != this.mLastCamHeight) {
@@ -239,7 +239,7 @@ Window.prototype.update = function (cam) {
      this.mRenderableObject.getXform().setSize(this.mRenderableObject.getXform().getWidth(),
      this.mRenderableObject.getXform().getHeight() + (cam.getWCHeight()-this.mLastCamHeight)/2);
      };*/
-    
+
     if (this.mRenderableObject.getXform().getWidth() < 0) {
         this.mRenderableObject.getXform().setSize(0, this.mRenderableObject.getXform().getHeight());
     }
@@ -259,16 +259,18 @@ Window.prototype.update = function (cam) {
             (this.mOffsetTop * this.mRenderableObject.getXform().getHeight() + this.mOffsetBottom * this.mRenderableObject.getXform().getHeight())) * (cam.getViewport()[3] / cam.getWCHeight());
     if (width < 0) {
         width = 0
-    };
+    }
+    ;
     if (height < 0) {
         height = 0
-    };
+    }
+    ;
     var x = ((this.mRenderableObject.getXform().getXPos()) - (this.mRenderableObject.getXform().getWidth() / 2) -
             (cam.getWCCenter()[0] - cam.getWCWidth() / 2) + this.mOffsetLeft * this.mRenderableObject.getXform().getWidth()) * (cam.getViewport()[2] / cam.getWCWidth());
     var y = ((this.mRenderableObject.getXform().getYPos()) - (this.mRenderableObject.getXform().getHeight() / 2) -
             (cam.getWCCenter()[1] - cam.getWCHeight() / 2) + this.mOffsetBottom * this.mRenderableObject.getXform().getHeight()) * (cam.getViewport()[3] / cam.getWCHeight());
     this.mCamera.setViewport([x, y, width, height]);
-    
+
     if (this.mIsResize)
     {
         this.mResizeable.setMousePosition(this.mMouseX, this.mMouseY);
